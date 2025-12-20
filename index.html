@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GitHub Holiday Campaign</title>
     
-    <!-- FIREBASE SDKs -->
+    <!-- FIREBASE SDKs (Stable Version 9.22.0) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -40,74 +40,47 @@
             overflow: hidden;
         }
 
-        /* --- BACKGROUND ATMOSPHERE --- */
-        .winter-glow {
-            position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
-            width: 120%; height: 70%;
-            background: radial-gradient(circle, rgba(56, 139, 253, 0.1) 0%, transparent 70%);
-            z-index: -1; pointer-events: none;
-        }
-        .snow-bg {
-            position: absolute; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px; opacity: 0.3; z-index: -1;
-        }
+        /* --- BACKGROUND --- */
+        .winter-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 120%; height: 70%; background: radial-gradient(circle, rgba(56, 139, 253, 0.1) 0%, transparent 70%); z-index: -1; pointer-events: none; }
+        .snow-bg { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.3; z-index: -1; }
 
-        /* --- AUTH SCREEN STYLES --- */
-        #auth-container {
+        /* --- LOADING SPINNER --- */
+        #loading-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-body); z-index: 2000;
+            background: var(--bg-body); z-index: 3000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; overflow-y: auto;
         }
-        
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid var(--button-grey);
+            border-top: 4px solid var(--github-green); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- AUTH SCREEN --- */
+        #auth-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .auth-header { text-align: center; margin-bottom: 30px; }
         .auth-logo { width: 64px; height: 64px; fill: #fff; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
         .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; color: #fff; }
         .auth-subtitle { color: var(--newyear-gold); font-size: 0.9rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
-
-        .auth-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            width: 100%; max-width: 400px; padding: 30px; border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative;
-            animation: fadeUp 0.5s ease-out;
-        }
-
+        .auth-card { background: var(--bg-card); border: 1px solid var(--border-color); width: 100%; max-width: 400px; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; animation: fadeUp 0.5s ease-out; }
         .auth-form { display: flex; flex-direction: column; gap: 15px; }
         .auth-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; display: block; }
-        .auth-input {
-            width: 100%; background: #010409; border: 1px solid var(--border-color);
-            padding: 12px; border-radius: 6px; color: #fff; font-size: 1rem;
-            transition: border-color 0.2s;
-        }
+        .auth-input { width: 100%; background: #010409; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; color: #fff; font-size: 1rem; transition: border-color 0.2s; }
         .auth-input:focus { border-color: var(--github-green); }
         .auth-select { appearance: none; -webkit-appearance: none; cursor: pointer; }
-
-        .auth-btn {
-            background: var(--github-green); color: #fff; border: none; padding: 14px;
-            border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer;
-            margin-top: 10px; transition: transform 0.2s;
-        }
+        .auth-btn { background: var(--github-green); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
         .auth-btn:active { transform: scale(0.98); }
         .auth-btn:disabled { background: var(--button-grey); cursor: not-allowed; opacity: 0.7; }
-
         .auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
         .auth-link { color: #58a6ff; cursor: pointer; text-decoration: none; font-weight: 600; margin-left: 5px; }
-        .auth-link:hover { text-decoration: underline; }
-        
         .auth-error { color: var(--holiday-red); font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
-
         .hidden { display: none !important; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- APP CONTENT --- */
-        #app-content { display: none; width: 100%; height: 100%; flex-direction: column; } 
-
-        header {
-            background: rgba(1, 4, 9, 0.85); backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: fixed; top: 0; width: 100%; z-index: 900;
-        }
+        /* --- APP STRUCTURE --- */
+        #app-content { display: none; width: 100%; height: 100%; flex-direction: column; }
+        header { background: rgba(1, 4, 9, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); position: fixed; top: 0; width: 100%; z-index: 900; }
         .header-stripe { width: 100%; height: 3px; background: var(--festive-gradient); box-shadow: 0 0 15px rgba(218, 54, 51, 0.4); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; height: 64px; }
         .brand-section { display: flex; align-items: center; gap: 12px; }
@@ -121,64 +94,40 @@
         .badge-value { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
         .countdown-dot { width: 6px; height: 6px; background-color: var(--holiday-red); border-radius: 50%; box-shadow: 0 0 5px var(--holiday-red); animation: pulse-red 2s infinite; }
 
-        /* --- MAIN CONTENT --- */
         main { flex: 1; margin-top: 67px; padding-bottom: 120px; overflow-y: auto; scroll-behavior: smooth; }
         .page { display: none; min-height: 100%; padding: 20px; flex-direction: column; animation: fadeSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .page.active { display: flex; }
         .page h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); font-weight: 700; text-align: center; }
         .page p { color: var(--text-muted); text-align: center; margin-bottom: 20px;}
 
-        /* --- REFERRAL CARD STYLES --- */
-        .referral-card {
-            background: linear-gradient(135deg, #1c2128 0%, #21262d 100%);
-            border: 1px solid var(--newyear-gold);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(242, 204, 96, 0.15);
-        }
-        .referral-card::before {
-            content: 'HOT';
-            position: absolute; top: 10px; right: 10px;
-            background: var(--holiday-red); color: white;
-            font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;
-        }
-        .ref-title { color: var(--newyear-gold); font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
-        .ref-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4; }
+        /* --- CAMPAIGN PAGE (VERTICAL) --- */
+        .campaign-vertical-list { display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 600px; margin: 0 auto; }
+        .camp-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .camp-card:active { transform: scale(0.98); }
+        .camp-img-box { width: 100%; aspect-ratio: 1 / 1; height: auto; background: #000; position: relative; }
+        .camp-img { width: 100%; height: 100%; object-fit: cover; }
+        .camp-title { padding: 15px; font-size: 1.1rem; font-weight: 700; color: #fff; text-align: center; background: rgba(255,255,255,0.05); }
         
-        .ref-code-box {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(0,0,0,0.3); border: 1px dashed var(--text-muted);
-            padding: 10px; border-radius: 8px; margin-bottom: 15px;
-        }
-        .ref-code-text { font-family: monospace; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 2px; }
-        .btn-copy-small { background: var(--button-grey); color: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
-        .btn-copy-small:active { background: #30363d; }
-
-        .ref-progress { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
-        .ref-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; }
-        .ref-bar-fill { height: 100%; background: var(--github-green); width: 0%; transition: width 0.5s ease; }
-
-        /* Task Item Style */
-        .task-item {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            padding: 15px; border-radius: 12px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .task-info { display: flex; flex-direction: column; }
-        .task-name { font-weight: 600; color: #fff; font-size: 0.95rem; }
-        .task-reward { font-size: 0.8rem; color: var(--github-green); font-weight: 700; }
-        .btn-task { background: var(--button-grey); border: 1px solid var(--border-color); color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
-        .btn-task:active { transform: scale(0.95); }
-        .btn-task.claimed { background: rgba(35, 134, 54, 0.2); color: var(--github-green); border-color: var(--github-green); cursor: default; opacity: 0.8; }
+        .camp-expanded { background: #1c2128; border: 1px solid var(--newyear-gold); border-radius: 12px; padding: 20px; margin-top: -15px; margin-bottom: 25px; display: none; animation: fadeIn 0.3s; position: relative; z-index: 10; }
+        .camp-expanded.open { display: block; }
+        .copy-box { background: rgba(0,0,0,0.3); border: 1px dashed var(--text-muted); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .copy-text { width: 100%; background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem; resize: none; height: 60px; margin-bottom: 5px; font-family: monospace; }
+        .btn-copy-msg { width: 100%; background: var(--button-grey); color: #fff; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
+        .copy-instruction { font-size: 0.75rem; color: var(--github-green); margin-bottom: 15px; font-style: italic; }
+        .camp-desc { font-size: 0.9rem; color: #fff; margin-bottom: 15px; white-space: pre-line; line-height: 1.5; }
+        .task-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .step-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; }
+        .step-text { font-size: 0.85rem; color: var(--text-main); }
+        .btn-ad { background: #d2a839; color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+        .btn-ad:disabled { background: var(--button-grey); color: var(--text-muted); cursor: not-allowed; }
+        .form-check { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-main); }
+        .form-check input { width: 18px; height: 18px; accent-color: var(--github-green); }
+        .btn-participate { width: 100%; background: var(--github-green); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .btn-participate:disabled { background: var(--button-grey); opacity: 0.5; cursor: not-allowed; }
 
         /* --- GAME CARD --- */
-        .game-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
-        .game-card { background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .game-card:hover { transform: translateY(-5px); border-color: var(--text-muted); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+        .game-grid-main { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
+        .game-card-main { background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .card-image-wrapper { width: 100%; padding-top: 56.25%; position: relative; background: #000; overflow: hidden; border-bottom: 1px solid var(--border-color); }
         .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -188,21 +137,39 @@
         .btn-play:hover { background: #2ea043; }
         .btn-play:active { transform: scale(0.98); }
 
-        /* --- WALLET & ACCOUNT --- */
+        /* --- REFERRAL & TASKS --- */
+        .referral-card { background: linear-gradient(135deg, #1c2128 0%, #21262d 100%); border: 1px solid var(--newyear-gold); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: left; position: relative; box-shadow: 0 4px 20px rgba(242, 204, 96, 0.15); }
+        .referral-card::before { content: 'HOT'; position: absolute; top: 10px; right: 10px; background: var(--holiday-red); color: white; font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+        .ref-title { color: var(--newyear-gold); font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+        .ref-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4; }
+        .ref-code-box { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.3); border: 1px dashed var(--text-muted); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .ref-code-text { font-family: monospace; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 2px; }
+        .btn-copy-small { background: var(--button-grey); color: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; }
+        .btn-copy-small:active { background: #30363d; }
+        .ref-completed-msg { display: none; text-align: center; color: var(--github-green); font-weight: 700; background: rgba(35, 134, 54, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--github-green); }
+        .ref-progress { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
+        .ref-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; }
+        .ref-bar-fill { height: 100%; background: var(--github-green); width: 0%; transition: width 0.5s ease; }
+
+        .task-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .task-info { display: flex; flex-direction: column; }
+        .task-name { font-weight: 600; color: #fff; font-size: 0.95rem; }
+        .task-reward { font-size: 0.8rem; color: var(--github-green); font-weight: 700; }
+        .btn-task { background: var(--button-grey); border: 1px solid var(--border-color); color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .btn-task:active { transform: scale(0.95); }
+        .btn-task.claimed { background: rgba(35, 134, 54, 0.2); color: var(--github-green); border-color: var(--github-green); cursor: default; opacity: 0.8; }
+        .btn-task.try-again { background: var(--holiday-red); border-color: var(--holiday-red); }
+        .ad-error-msg { color: var(--holiday-red); font-size: 0.8rem; margin-top: 5px; font-weight: 500; display: none; }
+
+        /* --- WALLET & DEPOSIT/WITHDRAW UI --- */
         .wallet-card { background-color: var(--bg-card); background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px); border-radius: 16px; padding: 30px 20px; text-align: left; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid var(--border-color); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
-        .wallet-card::after { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(240, 185, 11, 0.05) 0%, transparent 60%); pointer-events: none; }
         .wallet-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
         .wallet-amount { font-size: 3rem; font-weight: 700; color: #ffffff; letter-spacing: -1px; }
-        
         .logout-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid var(--border-color); color: var(--holiday-red); border-radius: 6px; padding: 5px 10px; font-size: 0.8rem; cursor: pointer; }
-
         .wallet-actions { display: flex; justify-content: space-around; margin-bottom: 40px; padding: 0 10px; }
         .action-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         .action-btn { width: 56px; height: 56px; border-radius: 50%; background-color: var(--button-grey); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .action-btn:active { transform: scale(0.95); background-color: #30363d; }
         .action-item span { font-size: 0.85rem; color: var(--text-main); font-weight: 500; }
-
-        /* --- DEPOSIT & WITHDRAW --- */
         .deposit-header { display: flex; background: var(--bg-card); border-radius: 8px; padding: 4px; margin-bottom: 24px; border: 1px solid var(--border-color); }
         .deposit-tab { flex: 1; text-align: center; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
         .deposit-tab.active { background: var(--button-grey); color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -213,20 +180,16 @@
         .address-box { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; }
         .address-text { flex: 1; font-family: monospace; color: #fff; word-break: break-all; font-size: 0.9rem; }
         .btn-copy { background: var(--button-grey); border: 1px solid var(--border-color); color: var(--text-main); width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .btn-copy:active { background: #30363d; }
         .deposit-warning { background: rgba(240, 185, 11, 0.1); border-left: 3px solid var(--newyear-gold); padding: 15px; border-radius: 6px; margin-top: 10px; }
         .warning-title { font-size: 0.9rem; color: #d2a839; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
         .warning-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
-
         .form-group { margin-bottom: 20px; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; }
         .form-label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
         .input-wrapper { position: relative; }
         .form-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 14px 14px 14px; border-radius: 8px; color: #fff; font-size: 1rem; transition: border 0.2s; }
-        .form-input:focus { border-color: var(--text-muted); }
         .input-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; }
         .percent-row { display: flex; gap: 8px; margin-top: 10px; }
         .percent-btn { flex: 1; background: var(--button-grey); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .percent-btn:active { background: var(--border-color); color: #fff; }
         .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .network-option { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; position: relative; overflow: hidden; }
         .network-option.selected { border-color: var(--newyear-gold); background: rgba(240, 185, 11, 0.05); }
@@ -236,9 +199,7 @@
         .icon-sol { background: #9945FF; color: #fff; }
         .network-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .btn-submit { width: 100%; background: var(--github-green); color: #fff; border: none; padding: 15px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(35, 134, 54, 0.3); }
-        .btn-submit:active { transform: scale(0.98); }
         .min-warning { color: var(--holiday-red); font-size: 0.8rem; margin-top: 8px; font-weight: 500; display: none; animation: fadeIn 0.3s; }
-
         .criteria-card { margin-top: 30px; background: rgba(22, 27, 34, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
         .criteria-title { font-size: 0.95rem; color: var(--text-main); margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .criteria-list { list-style: none; padding: 0; margin: 0; }
@@ -249,7 +210,6 @@
         .completed .criteria-status { background: rgba(35, 134, 54, 0.3); color: var(--github-green); }
         .security-note { background: rgba(240, 185, 11, 0.1); border-left: 3px solid var(--newyear-gold); padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 0.8rem; color: #d2a839; line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; }
         .security-note svg { flex-shrink: 0; margin-top: 2px; }
-
         .trx-section { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 30px; padding-bottom: 20px; }
         .coin-graphics { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
         .coin { width: 60px; height: 60px; border-radius: 50%; border: 4px solid #161b22; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5); position: relative; }
@@ -261,7 +221,7 @@
         .btn-buy-trx:hover { background-color: #ffe066; }
         .btn-buy-trx:active { transform: scale(0.97); }
 
-        /* --- MODAL --- */
+        /* --- MODALS --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 1200; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { opacity: 1; display: flex; }
         .modal-card { background: #1c2128; border: 1px solid var(--border-color); width: 90%; max-width: 340px; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
@@ -294,6 +254,12 @@
 </head>
 <body>
 
+    <!-- LOADING SPINNER -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <p style="color: #8b949e; font-size: 0.9rem;">Loading...</p>
+    </div>
+
     <!-- Backgrounds -->
     <div class="winter-glow"></div>
     <div class="snow-bg"></div>
@@ -301,77 +267,37 @@
     <!-- AUTHENTICATION SECTION (Visible by default) -->
     <div id="auth-container">
         <div class="auth-header">
-            <svg class="auth-logo" viewBox="0 0 16 16" version="1.1">
-                <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-            </svg>
+            <svg class="auth-logo" viewBox="0 0 16 16" version="1.1"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
             <h1 class="auth-title">GitHub New Year Campaign</h1>
             <div class="auth-subtitle">Login to Continue</div>
         </div>
-
-        <!-- LOGIN FORM -->
         <div id="login-form" class="auth-card">
             <h2 style="color:#fff; margin-bottom:20px;">Welcome Back</h2>
             <div class="auth-form">
-                <div>
-                    <label class="auth-label">Email</label>
-                    <input type="email" id="login-email" class="auth-input" placeholder="Enter your email">
-                </div>
-                <div>
-                    <label class="auth-label">Password</label>
-                    <input type="password" id="login-password" class="auth-input" placeholder="Enter password">
-                </div>
+                <div><label class="auth-label">Email</label><input type="email" id="login-email" class="auth-input" placeholder="Enter your email"></div>
+                <div><label class="auth-label">Password</label><input type="password" id="login-password" class="auth-input" placeholder="Enter password"></div>
                 <div id="login-error" class="auth-error"></div>
                 <button class="auth-btn" id="btn-login" onclick="performLogin()">Log In</button>
             </div>
-            <div class="auth-switch">
-                Don't have an account? <span class="auth-link" onclick="toggleAuthMode('signup')">Create new account</span>
-            </div>
+            <div class="auth-switch">Don't have an account? <span class="auth-link" onclick="toggleAuthMode('signup')">Create new account</span></div>
         </div>
-
-        <!-- SIGNUP FORM -->
         <div id="signup-form" class="auth-card hidden">
             <h2 style="color:#fff; margin-bottom:20px;">Create Account</h2>
             <div class="auth-form">
-                <div>
-                    <label class="auth-label">Full Name</label>
-                    <input type="text" id="signup-name" class="auth-input" placeholder="Your Name">
-                </div>
-                <div>
-                    <label class="auth-label">Email</label>
-                    <input type="email" id="signup-email" class="auth-input" placeholder="name@example.com">
-                </div>
-                <div>
-                    <label class="auth-label">Country</label>
-                    <select id="signup-country" class="auth-input auth-select">
-                        <option value="" disabled selected>Select Country</option>
-                        <option value="US">United States</option>
-                        <option value="IN">India</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="CA">Canada</option>
-                        <option value="AU">Australia</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="auth-label">Password</label>
-                    <input type="password" id="signup-password" class="auth-input" placeholder="Create password">
-                </div>
-                <div>
-                    <label class="auth-label">Referral Code (Optional)</label>
-                    <input type="text" id="signup-referral" class="auth-input" placeholder="Enter code">
-                </div>
+                <div><label class="auth-label">Full Name</label><input type="text" id="signup-name" class="auth-input" placeholder="Your Name"></div>
+                <div><label class="auth-label">Email</label><input type="email" id="signup-email" class="auth-input" placeholder="name@example.com"></div>
+                <div><label class="auth-label">Country</label><select id="signup-country" class="auth-input auth-select"><option value="" disabled selected>Select Country</option><option value="US">United States</option><option value="IN">India</option><option value="UK">United Kingdom</option><option value="CA">Canada</option><option value="AU">Australia</option><option value="Other">Other</option></select></div>
+                <div><label class="auth-label">Password</label><input type="password" id="signup-password" class="auth-input" placeholder="Create password"></div>
+                <div><label class="auth-label">Referral Code (Optional)</label><input type="text" id="signup-referral" class="auth-input" placeholder="Enter code"></div>
                 <div id="signup-error" class="auth-error"></div>
                 <button class="auth-btn" id="btn-signup" onclick="performSignup()">Sign Up</button>
             </div>
-            <div class="auth-switch">
-                Already have an account? <span class="auth-link" onclick="toggleAuthMode('login')">Log In</span>
-            </div>
+            <div class="auth-switch">Already have an account? <span class="auth-link" onclick="toggleAuthMode('login')">Log In</span></div>
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER (Hidden by default) -->
+    <!-- MAIN APP -->
     <div id="app-content">
-        <!-- Header -->
         <header>
             <div class="header-stripe"></div>
             <div class="header-inner">
@@ -391,13 +317,12 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main>
-            <!-- Page 1: Games -->
+            <!-- GAMES PAGE -->
             <section id="page-games" class="page active">
                 <h2>Arcade Zone</h2>
                 <div class="game-grid">
-                    <div class="game-card">
+                    <div class="game-card-main">
                         <div class="card-image-wrapper">
                             <img src="https://i.ibb.co/FqJj6ydH/Picsart-25-12-19-17-29-50-973.jpg" alt="Moon Minor" class="card-image">
                         </div>
@@ -410,21 +335,28 @@
                 </div>
             </section>
 
-            <!-- Page 2: Task -->
+            <!-- TASKS PAGE -->
             <section id="page-task" class="page">
                 <h2 style="text-align:center; margin-bottom:20px;">Task Center</h2>
                 
-                <!-- Referral Grid -->
                 <div class="referral-card">
                     <div class="ref-title">Refer & Earn</div>
-                    <div class="ref-desc">Invite friends and get <b>2 USDT</b> per referral + <b>10%</b> of their earnings!</div>
                     
-                    <div class="ref-code-box">
-                        <span class="ref-code-text" id="my-ref-code">LOADING...</span>
-                        <button class="btn-copy-small" onclick="copyRefCode()">COPY</button>
+                    <!-- ACTIVE STATE -->
+                    <div id="ref-active-state">
+                        <div class="ref-desc">Invite friends and get <b>5 USDT</b> per referral!</div>
+                        <div class="ref-code-box">
+                            <span class="ref-code-text" id="my-ref-code">LOADING...</span>
+                            <button class="btn-copy-small" onclick="copyRefCode()">COPY INVITE</button>
+                        </div>
                     </div>
-                    
-                    <div style="margin-bottom:5px; font-size:0.85rem; font-weight:600; color:#fff; display:flex; justify-content:space-between;">
+
+                    <!-- COMPLETED STATE -->
+                    <div id="ref-completed-state" class="ref-completed-msg">
+                        🎉 Mission Completed! <br> You have reached the referral limit.
+                    </div>
+
+                    <div style="margin-bottom:5px; font-size:0.85rem; font-weight:600; color:#fff; display:flex; justify-content:space-between; margin-top:15px;">
                         <span>Your Progress</span>
                         <span id="ref-count-text">0/3 Users</span>
                     </div>
@@ -433,7 +365,6 @@
                     </div>
                 </div>
 
-                <!-- Daily Tasks -->
                 <div class="task-item">
                     <div class="task-info">
                         <span class="task-name">Daily Check-in</span>
@@ -444,60 +375,35 @@
                 
                 <div class="task-item">
                     <div class="task-info">
-                        <span class="task-name">Join Telegram Channel</span>
-                        <span class="task-reward">+1.00 USDT</span>
+                        <span class="task-name">Follow GitHub (Twitter)</span>
+                        <span class="task-reward">+2.00 USDT</span>
                     </div>
-                    <button class="btn-task">Join</button>
+                    <button class="btn-task" id="btn-twitter-task" onclick="claimTwitterTask()">Follow</button>
                 </div>
-
+                
+                <div class="task-item">
+                    <div class="task-info">
+                        <span class="task-name">Watch Ad</span>
+                        <span class="task-reward">+0.50 USDT (Limit: 5/day)</span>
+                        <div id="ad-error-msg" class="ad-error-msg">Stay on the page for 10 seconds</div>
+                    </div>
+                    <button class="btn-task" id="btn-watch-ad" onclick="watchAdTask()">Watch</button>
+                </div>
             </section>
 
-            <!-- Page 3: Campaign -->
+            <!-- CAMPAIGN PAGE -->
             <section id="page-campaign" class="page">
-                <div style="font-size:3rem; text-align:center; opacity:0.5; margin-bottom:20px;">🎁</div>
-                <h2>Gift Drop</h2>
-                <p>See what's inside the final New Year mystery box.</p>
-            </section>
-
-            <!-- Page 4: Account -->
-            <section id="page-account" class="page">
-                <!-- Logout Button -->
-                <button class="logout-btn" onclick="performLogout()">Logout</button>
-
-                <div class="wallet-card">
-                    <div class="wallet-label">BALANCE</div>
-                    <div class="wallet-amount" id="main-balance">$0.00</div>
-                </div>
-
-                <div class="wallet-actions">
-                    <div class="action-item" onclick="openDepositPage()">
-                        <button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button>
-                        <span>Receive</span>
-                    </div>
-                    <div class="action-item" onclick="openWithdrawPage()">
-                        <button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
-                        <span>Withdraw</span>
-                    </div>
-                    <div class="action-item"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
-                </div>
-
-                <div class="trx-section">
-                    <div class="coin-graphics"><div class="coin coin-trx">TRX</div><div class="coin coin-sol">SOL</div></div>
-                    <h3 class="trx-title">Get started with TRX/SOL</h3>
-                    <p class="trx-desc">You'll need a tiny amount of TRX or SOL as a fee for wallet transaction.</p>
-                    <button class="btn-buy-trx">Buy TRX/SOL</button>
-                </div>
+                <h2>Special Events</h2>
+                <div class="campaign-vertical-list" id="campaign-container"></div>
             </section>
 
             <!-- WITHDRAWAL PAGE -->
             <section id="page-withdraw" class="page">
                 <h2 style="margin-bottom:30px;">Withdraw USDT</h2>
-                
                 <div class="wallet-card" style="margin-bottom:30px;">
                     <div class="wallet-label">AVAILABLE BALANCE</div>
                     <div class="wallet-amount" id="withdraw-balance">$0.00</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Withdrawal Amount</label>
                     <div class="input-wrapper">
@@ -512,7 +418,6 @@
                         <button class="percent-btn" onclick="setPercent(1.0)">MAX</button>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Select Network</label>
                     <div class="network-grid">
@@ -528,12 +433,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Withdrawal Address</label>
                     <input type="text" id="withdraw-address" class="form-input" placeholder="Select network first...">
                 </div>
-
                 <button class="btn-submit" onclick="handleWithdraw()">Confirm Withdraw</button>
                 <button class="percent-btn" style="margin-top:15px; width:100%; background:transparent; border:none;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Cancel</button>
             
@@ -542,9 +445,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                         Withdrawal Eligibility
                     </div>
-                    <ul class="criteria-list" id="criteria-container">
-                        <!-- Dynamic Items Injected via JS -->
-                    </ul>
+                    <ul class="criteria-list" id="criteria-container"></ul>
                     <div class="security-note">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         <span><strong>Security Notice:</strong> Due to bots and fake users, these criteria have been established to ensure only real, active users can process withdrawals.</span>
@@ -552,19 +453,36 @@
                 </div>
             </section>
 
+            <!-- ACCOUNT PAGE -->
+            <section id="page-account" class="page">
+                <button class="logout-btn" onclick="performLogout()">Logout</button>
+                <div class="wallet-card">
+                    <div class="wallet-label">BALANCE</div>
+                    <div class="wallet-amount" id="main-balance">$0.00</div>
+                </div>
+                <div class="wallet-actions">
+                    <div class="action-item" onclick="openDepositPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button><span>Receive</span></div>
+                    <div class="action-item" onclick="openWithdrawPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button><span>Withdraw</span></div>
+                    <div class="action-item"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
+                </div>
+                <div class="trx-section">
+                    <div class="coin-graphics"><div class="coin coin-trx">TRX</div><div class="coin coin-sol">SOL</div></div>
+                    <h3 class="trx-title">Get started with TRX/SOL</h3>
+                    <p class="trx-desc">You'll need a tiny amount of TRX or SOL as a fee for wallet transaction.</p>
+                    <button class="btn-buy-trx">Buy TRX/SOL</button>
+                </div>
+            </section>
+
             <!-- DEPOSIT PAGE -->
             <section id="page-deposit" class="page">
                 <h2 style="margin-bottom:20px;">Deposit Crypto</h2>
-                
                 <div class="deposit-header">
                     <div id="tab-trx" class="deposit-tab active" onclick="switchDepositNetwork('TRX')">TRX</div>
                     <div id="tab-sol" class="deposit-tab" onclick="switchDepositNetwork('SOL')">Solana</div>
                 </div>
-
                 <div class="qr-card">
                     <img id="qr-image" src="https://i.ibb.co/Qv1kkrzP/IMG-20251219-194442.png" alt="QR Code" class="qr-img">
                 </div>
-
                 <div class="deposit-info-card">
                     <span class="info-label" id="deposit-label">Deposit Address (TRC20)</span>
                     <div class="address-box">
@@ -573,24 +491,18 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
                     </div>
-                    
                     <div class="deposit-warning">
                         <div class="warning-title">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                             <span>Requirement</span>
                         </div>
-                        <p class="warning-text" id="deposit-message">
-                            Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.
-                        </p>
+                        <p class="warning-text" id="deposit-message">Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.</p>
                     </div>
                 </div>
-
                 <button class="percent-btn" style="margin-top:10px; width:100%; background:transparent; border:none;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Back to Account</button>
             </section>
-
         </main>
 
-        <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <button class="nav-item active" onclick="switchTab('games', this)">
                 <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4m-2-2v4"></path><line x1="15" y1="11" x2="15" y2="11"></line><line x1="18" y1="13" x2="18" y2="13"></line></svg>
@@ -611,35 +523,24 @@
         </nav>
     </div>
 
-    <!-- INSUFFICIENT FUNDS MODAL -->
+    <!-- MODALS -->
     <div id="fee-modal" class="modal-overlay">
         <div class="modal-card">
             <button class="btn-close-modal" onclick="closeModal('fee-modal')">✕</button>
-            <div class="modal-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            </div>
+            <div class="modal-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
             <h3 class="modal-title">Insufficient Fee Balance</h3>
             <p class="modal-text" id="modal-msg">You don't have sufficient balance.</p>
             <div class="modal-btn-group">
-                <div class="modal-btn-wrapper">
-                    <button class="btn-modal btn-modal-add" id="btn-add">Add Funds</button>
-                    <span class="btn-subtext">Deposit from any crypto wallet</span>
-                </div>
-                <div class="modal-btn-wrapper">
-                    <button class="btn-modal btn-modal-buy" id="btn-buy">Buy Now</button>
-                    <span class="btn-subtext">Buy by making online payment</span>
-                </div>
+                <div class="modal-btn-wrapper"><button class="btn-modal btn-modal-add" id="btn-add">Add Funds</button><span class="btn-subtext">Deposit from any crypto wallet</span></div>
+                <div class="modal-btn-wrapper"><button class="btn-modal btn-modal-buy" id="btn-buy">Buy Now</button><span class="btn-subtext">Buy by making online payment</span></div>
             </div>
         </div>
     </div>
 
-    <!-- ELIGIBILITY FAILED MODAL (NEW) -->
     <div id="eligibility-modal" class="modal-overlay">
         <div class="modal-card">
             <button class="btn-close-modal" onclick="closeModal('eligibility-modal')">✕</button>
-            <div class="modal-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-            </div>
+            <div class="modal-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
             <h3 class="modal-title">Withdrawal Criteria Not Met</h3>
             <p class="modal-text">You must complete all withdrawal requirements before proceeding.</p>
             <button class="btn-modal btn-modal-buy" onclick="closeModal('eligibility-modal')">Review Requirements</button>
@@ -647,7 +548,6 @@
     </div>
 
     <script>
-        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
           apiKey: "AIzaSyCwFX7nw-APvcOwKkMv7q_SXj6NW5R1Sqo",
           authDomain: "smart-saver-85566.firebaseapp.com",
@@ -657,66 +557,210 @@
           messagingSenderId: "394409352130",
           appId: "1:394409352130:web:88d24690fd71c149f4d45b"
         };
-
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // --- GLOBAL USER STATE ---
         let currentUser = null;
-        let userData = {
-            profile: {},
-            stats: {
-                balance: 0.00,
-                activeDays: 0,
-                tasksDone: 0,
-                campaignsJoined: 0,
-                referrals: 0,
-                lastDailyCheckIn: null
-            }
-        };
-        const REQUIREMENTS = {
-            minActiveDays: 5,
-            minTasks: 5,
-            minCampaigns: 2 // Updated Requirement
-        };
+        let userData = { profile: {}, stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null } };
+        let adAttemptCounter = 1;
+        const REQUIREMENTS = { minActiveDays: 3, minTasks: 5, minCampaigns: 1 };
 
-        // --- AUTH STATE OBSERVER ---
+        const CAMPAIGNS = [
+            {
+                id: 1,
+                title: "GitHub Christmas Campaign 🎉",
+                desc: "Celebrate the holiday season with exclusive rewards! Win electronic items, festive merchandise, and gift cards.\n\n💰 Prizes worth $500,000+",
+                img: "https://i.ibb.co/FLnTF5GX/christmas-giveaway-poster-santa-claus-sleigh-with-gifts-christmas-tree-vector-illustration-51281-83.jpg",
+                msg: "🎄 Join the GitHub Christmas Campaign! 🎁\nWin amazing prizes worth $500k+!\nParticipate now: https://new-year-campaign.github.io/New-Year-Treat/",
+                form: "https://forms.gle/Kb3xekhuPjHUpmPC9",
+                ad: "https://www.effectivegatecpm.com/n52svjdxrg?key=4cc17ce55ef928bc5a0bc0367e2c443c"
+            },
+            {
+                id: 2,
+                title: "🎉 New Year Campaign – Gift Fest 🎉",
+                desc: "Start your New Year with exciting rewards! Win electronic items and exclusive merchandise.\n\n💰 Prizes worth $500,000+",
+                img: "https://i.ibb.co/CpXQMrX9/Picsart-25-12-20-17-26-46-585.jpg",
+                msg: "🎉 Join the GitHub New Year Gift Fest! 🎆\nWin electronic items & gift cards!\nParticipate now: https://new-year-campaign.github.io/New-Year-Treat/",
+                form: "https://forms.gle/tHcUqjLctgusfobw7",
+                ad: "https://www.effectivegatecpm.com/n52svjdxrg?key=4cc17ce55ef928bc5a0bc0367e2c443c"
+            }
+        ];
+
+        let campaignState = { 1: { copied: false, watched: false, joined: false }, 2: { copied: false, watched: false, joined: false } };
+
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
-                // User is signed in, fetch data
-                const userRef = db.ref('users/' + user.uid);
-                userRef.on('value', (snapshot) => {
+                db.ref('users/' + user.uid).on('value', (snapshot) => {
                     const data = snapshot.val();
-                    if(data) {
-                        userData = data;
-                        updateUI();
-                        // Check daily task status immediately to update UI
+                    if(data) { 
+                        userData = data; 
+                        updateUI(); 
+                        renderCampaigns(); 
                         const now = new Date().toDateString();
                         if (userData.stats.lastDailyCheckIn === now) {
                             const btn = document.getElementById('btn-daily-checkin');
-                            if(btn) {
-                                btn.textContent = "Claimed";
-                                btn.classList.add('claimed');
-                                btn.disabled = true;
-                            }
+                            if(btn) { btn.textContent = "Claimed"; btn.classList.add('claimed'); btn.disabled = true; }
                         }
-                    }
+                        if (userData.stats.twitterClaimed) {
+                            const btn = document.getElementById('btn-twitter-task');
+                            if(btn) { btn.textContent = "Claimed"; btn.classList.add('claimed'); btn.disabled = true; }
+                        }
+                    } else { initializeNewUser(user); }
                 });
                 showApp();
-            } else {
-                currentUser = null;
-                showAuth();
-            }
+            } else { currentUser = null; showAuth(); }
         });
 
-        // --- AUTH FUNCTIONS ---
+        function initializeNewUser(user) {
+            const initialData = {
+                profile: { name: "User", email: user.email, country: "", referral: "", referralCode: generateReferralCode() },
+                stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null }
+            };
+            db.ref('users/' + user.uid).set(initialData);
+        }
+
+        function claimTwitterTask() {
+            if(!currentUser) return;
+            if(userData.stats.twitterClaimed) return;
+            window.open("https://x.com/github", "_blank");
+            setTimeout(() => {
+                const newBalance = (userData.stats.balance || 0) + 2.00;
+                const newTasks = (userData.stats.tasksDone || 0) + 1;
+                db.ref('users/' + currentUser.uid + '/stats').update({ balance: newBalance, tasksDone: newTasks, twitterClaimed: true });
+                alert("Twitter Task Claimed! +2.00 USDT");
+            }, 5000);
+        }
+
+        function watchAdTask() {
+            if(!currentUser) return;
+            const today = new Date().toDateString();
+            if (userData.stats.lastAdDate !== today) { userData.stats.adWatchesToday = 0; }
+            if ((userData.stats.adWatchesToday || 0) >= 5) { alert("Daily limit reached (5/5). Come back tomorrow!"); return; }
+
+            const btn = document.getElementById('btn-watch-ad');
+            const errorMsg = document.getElementById('ad-error-msg');
+            const adLink = "https://www.effectivegatecpm.com/pe893qp57g?key=775e7f2eed1ccdb06ac44b60276c97c3";
+
+            window.open(adLink, "_blank");
+
+            if (adAttemptCounter % 2 !== 0) {
+                btn.disabled = true;
+                setTimeout(() => { btn.disabled = false; btn.textContent = "Try Again"; btn.classList.add('try-again'); errorMsg.style.display = "block"; adAttemptCounter++; }, 2000);
+            } else {
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.disabled = false; btn.textContent = "Watch"; btn.classList.remove('try-again'); errorMsg.style.display = "none";
+                    const newBalance = (userData.stats.balance || 0) + 0.50;
+                    const newTasks = (userData.stats.tasksDone || 0) + 1;
+                    const newWatches = (userData.stats.adWatchesToday || 0) + 1;
+                    db.ref('users/' + currentUser.uid + '/stats').update({ balance: newBalance, tasksDone: newTasks, adWatchesToday: newWatches, lastAdDate: today });
+                    alert("Ad Task Completed! +0.50 USDT");
+                    adAttemptCounter++;
+                }, 2000);
+            }
+        }
+
+        function renderCampaigns() {
+            const container = document.getElementById('campaign-container');
+            container.innerHTML = '';
+            CAMPAIGNS.forEach(camp => {
+                const state = campaignState[camp.id];
+                const btnText = state.joined ? "Participated ✅" : "Participate";
+                const btnDisabled = state.joined || !(state.copied && state.watched && document.getElementById(`chk-${camp.id}`)?.checked);
+                
+                const html = `
+                <div class="camp-card" onclick="toggleCampaign(${camp.id})">
+                    <div class="camp-img-box"><img src="${camp.img}" class="camp-img"></div>
+                    <div class="camp-title">${camp.title}</div>
+                </div>
+                <div id="camp-expanded-${camp.id}" class="camp-expanded">
+                    <div class="copy-box">
+                        <textarea id="msg-${camp.id}" class="copy-text" readonly>${camp.msg}</textarea>
+                        <button class="btn-copy-msg" onclick="copyCampMsg(${camp.id})">Copy Message</button>
+                    </div>
+                    <div class="copy-instruction">Copy and share this on any social media</div>
+                    <p class="camp-desc">${camp.desc}</p>
+                    <div class="task-list">
+                        <div class="step-item"><span class="step-text">1. Share Post</span></div>
+                        <div class="step-item"><span class="step-text">2. <a href="${camp.form}" target="_blank" style="color:#58a6ff">Fill Form</a></span></div>
+                        <div class="step-item">
+                            <span class="step-text">3. Watch Ad</span>
+                            <button id="ad-btn-${camp.id}" class="btn-ad" onclick="watchAd(${camp.id})">${state.watched ? 'Completed' : 'Watch'}</button>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="chk-${camp.id}" onchange="checkParticipate(${camp.id})">
+                        <label for="chk-${camp.id}">I have filled the Google Form</label>
+                    </div>
+                    <button id="part-btn-${camp.id}" class="btn-participate" onclick="participate(${camp.id})" disabled>${btnText}</button>
+                </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        function toggleCampaign(id) {
+            const el = document.getElementById(`camp-expanded-${id}`);
+            const isVisible = el.classList.contains('open');
+            document.querySelectorAll('.camp-expanded').forEach(e => e.classList.remove('open'));
+            if(!isVisible) el.classList.add('open');
+        }
+
+        function copyCampMsg(id) {
+            const txt = document.getElementById(`msg-${id}`);
+            txt.select();
+            document.execCommand("copy");
+            campaignState[id].copied = true;
+            alert("Message copied!");
+            checkParticipate(id);
+        }
+
+        function watchAd(id) {
+            if(campaignState[id].watched) return;
+            const btn = document.getElementById(`ad-btn-${id}`);
+            window.open(CAMPAIGNS.find(c => c.id === id).ad, '_blank');
+            let timeLeft = 7;
+            btn.disabled = true;
+            const timer = setInterval(() => {
+                btn.textContent = `Wait ${timeLeft}s`;
+                timeLeft--;
+                if(timeLeft < 0) {
+                    clearInterval(timer);
+                    campaignState[id].watched = true;
+                    btn.textContent = "Completed";
+                    checkParticipate(id);
+                }
+            }, 1000);
+        }
+
+        function checkParticipate(id) {
+            const state = campaignState[id];
+            const chk = document.getElementById(`chk-${id}`);
+            const btn = document.getElementById(`part-btn-${id}`);
+            if(state.joined) return;
+            if(state.copied && state.watched && chk.checked) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+
+        function participate(id) {
+            if(!currentUser) return;
+            campaignState[id].joined = true;
+            document.getElementById(`part-btn-${id}`).textContent = "Participated ✅";
+            document.getElementById(`part-btn-${id}`).disabled = true;
+            
+            const newCount = (userData.stats.campaignsJoined || 0) + 1;
+            db.ref('users/' + currentUser.uid + '/stats').update({ campaignsJoined: newCount });
+            alert("Participation Successful!");
+        }
+
         function toggleAuthMode(mode) {
             document.getElementById('login-error').style.display = 'none';
             document.getElementById('signup-error').style.display = 'none';
-            
             if(mode === 'login') {
                 document.getElementById('login-form').classList.remove('hidden');
                 document.getElementById('signup-form').classList.add('hidden');
@@ -726,9 +770,7 @@
             }
         }
 
-        function generateReferralCode() {
-            return Math.random().toString(36).substring(2, 8).toUpperCase();
-        }
+        function generateReferralCode() { return Math.random().toString(36).substring(2, 8).toUpperCase(); }
 
         function performSignup() {
             const btn = document.getElementById('btn-signup');
@@ -739,29 +781,42 @@
             const pass = document.getElementById('signup-password').value;
             const referral = document.getElementById('signup-referral').value;
 
-            if(!name || !email || !country || !pass) {
-                showError(errDiv, "Please fill in all mandatory fields");
-                return;
-            }
+            if(!name || !email || !country || !pass) { showError(errDiv, "Please fill in all mandatory fields"); return; }
 
             btn.disabled = true;
             btn.textContent = "Creating Account...";
 
-            auth.createUserWithEmailAndPassword(email, pass)
-                .then((userCredential) => {
-                    const uid = userCredential.user.uid;
-                    const code = generateReferralCode();
-                    const initialData = {
-                        profile: { name, email, country, referral, referralCode: code },
-                        stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0 }
-                    };
-                    db.ref('users/' + uid).set(initialData);
-                })
-                .catch((error) => {
-                    showError(errDiv, error.message);
-                    btn.disabled = false;
-                    btn.textContent = "Sign Up";
-                });
+            auth.createUserWithEmailAndPassword(email, pass).then((userCredential) => {
+                const uid = userCredential.user.uid;
+                const code = generateReferralCode();
+                const initialData = {
+                    profile: { name, email, country, referral, referralCode: code },
+                    stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0 }
+                };
+                
+                if(referral) {
+                    db.ref('users').orderByChild('profile/referralCode').equalTo(referral).once('value', snapshot => {
+                        if(snapshot.exists()) {
+                            snapshot.forEach(child => {
+                                const refUid = child.key;
+                                const refData = child.val();
+                                const currentRefs = refData.stats.referrals || 0;
+                                if (currentRefs < 3) {
+                                    const newBal = (refData.stats.balance || 0) + 5;
+                                    const newRef = currentRefs + 1;
+                                    db.ref('users/' + refUid + '/stats').update({ balance: newBal, referrals: newRef });
+                                }
+                            });
+                        }
+                    });
+                }
+
+                db.ref('users/' + uid).set(initialData);
+            }).catch((error) => {
+                showError(errDiv, error.message);
+                btn.disabled = false;
+                btn.textContent = "Sign Up";
+            });
         }
 
         function performLogin() {
@@ -769,79 +824,62 @@
             const errDiv = document.getElementById('login-error');
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
-
-            if(!email || !pass) {
-                showError(errDiv, "Please fill in all fields");
-                return;
-            }
-
+            if(!email || !pass) { showError(errDiv, "Please fill in all fields"); return; }
             btn.disabled = true;
             btn.textContent = "Logging In...";
-
-            auth.signInWithEmailAndPassword(email, pass)
-                .catch((error) => {
-                    showError(errDiv, "Invalid email or password");
-                    btn.disabled = false;
-                    btn.textContent = "Log In";
-                });
+            auth.signInWithEmailAndPassword(email, pass).catch((error) => {
+                showError(errDiv, "Invalid email or password");
+                btn.disabled = false;
+                btn.textContent = "Log In";
+            });
         }
 
-        function performLogout() {
-            if(confirm("Are you sure you want to logout?")) {
-                auth.signOut();
-                location.reload();
-            }
+        function performLogout() { if(confirm("Are you sure you want to logout?")) { auth.signOut(); location.reload(); } }
+        function showError(div, msg) { div.textContent = msg; div.style.display = 'block'; }
+        function showApp() { 
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'none'; 
+            document.getElementById('app-content').style.display = 'flex'; 
         }
-
-        function showError(div, msg) {
-            div.textContent = msg;
-            div.style.display = 'block';
-        }
-
-        function showApp() {
-            document.getElementById('auth-container').style.display = 'none';
-            document.getElementById('app-content').style.display = 'flex';
-        }
-
-        function showAuth() {
-            document.getElementById('auth-container').style.display = 'flex';
-            document.getElementById('app-content').style.display = 'none';
+        function showAuth() { 
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'flex'; 
+            document.getElementById('app-content').style.display = 'none'; 
         }
 
         function updateUI() {
+            if(!userData || !userData.stats) return;
             const balanceStr = '$' + (userData.stats.balance || 0).toFixed(2);
             document.getElementById('main-balance').textContent = balanceStr;
             document.getElementById('withdraw-balance').textContent = balanceStr;
             
-            // Update Referral Info
-            if(userData.profile && userData.profile.referralCode) {
-                document.getElementById('my-ref-code').textContent = userData.profile.referralCode;
-            }
+            if(userData.profile && userData.profile.referralCode) { document.getElementById('my-ref-code').textContent = userData.profile.referralCode; }
+            
             const refCount = userData.stats.referrals || 0;
+            if (refCount >= 3) {
+                document.getElementById('ref-active-state').style.display = 'none';
+                document.getElementById('ref-completed-state').style.display = 'block';
+            } else {
+                document.getElementById('ref-active-state').style.display = 'block';
+                document.getElementById('ref-completed-state').style.display = 'none';
+            }
+            
             document.getElementById('ref-count-text').textContent = `${refCount}/3 Users`;
             const refPercent = Math.min((refCount / 3) * 100, 100);
             document.getElementById('ref-bar').style.width = refPercent + '%';
         }
 
-        // --- TASK LOGIC ---
         function claimDailyTask() {
             if(!currentUser) return;
-
-            const now = new Date().toDateString(); // e.g., "Fri Dec 19 2025"
-            const lastClaim = userData.stats.lastDailyCheckIn;
-
-            if (lastClaim === now) {
-                alert("You have already claimed your daily reward today. Come back tomorrow!");
-                return;
-            }
-
-            const newBalance = (userData.stats.balance || 0) + 0.5;
-            const newTasks = (userData.stats.tasksDone || 0) + 1;
+            const now = new Date().toDateString();
+            if (userData.stats.lastDailyCheckIn === now) { alert("Already claimed today!"); return; }
             
-            // Update both balance and the last check-in date
+            const newBalance = (userData.stats.balance || 0) + 0.5;
+            const newActive = (userData.stats.activeDays || 0) + 1;
+            
             db.ref('users/' + currentUser.uid + '/stats').update({
                 balance: newBalance,
-                tasksDone: newTasks,
+                activeDays: newActive,
                 lastDailyCheckIn: now
             });
             alert("Task Claimed! +0.50 USDT");
@@ -849,36 +887,33 @@
 
         function copyRefCode() {
             const code = document.getElementById('my-ref-code').textContent;
-            navigator.clipboard.writeText(code).then(() => { alert("Code Copied!"); });
+            if(code === 'LOADING...') return;
+            const link = "https://new-year-campaign.github.io/New-Year-Treat/";
+            const fullMessage = `🎉 GitHub New Year Campaign 🎉\nJoin now and earn USDT by playing games and completing rewards.\n💰 Earn & withdraw instantly.\n👉 Join now and don’t forget to use my referral code: ${code} to get started!\n\n${link}`;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = fullMessage;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try { document.execCommand('copy'); alert("Referral link & message copied!"); } catch (err) { alert("Manual copy required"); }
+            document.body.removeChild(textArea);
         }
 
-        // --- PAGE SWITCHING ---
         function switchTab(pageName, element) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             const target = document.getElementById('page-' + pageName);
             if(target) target.classList.add('active');
-            
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(element) {
-                element.classList.add('active');
-                createRipple(element);
-            }
+            if(element) { element.classList.add('active'); createRipple(element); }
         }
 
-        // --- DEPOSIT LOGIC ---
         const DEPOSIT_DATA = {
-            TRX: {
-                address: "TDd6nACgkw5CgJ8yNhwWww7DgMEvoD8yLg",
-                qr: "https://i.ibb.co/Qv1kkrzP/IMG-20251219-194442.png",
-                msg: "Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.",
-                label: "Deposit Address (TRC20)"
-            },
-            SOL: {
-                address: "6awfunsDcMFNeTDAsiNLAVaVwhrfYasqW1LfZQrXywo7",
-                qr: "https://i.ibb.co/pBKhBZdc/IMG-20251219-194511.png",
-                msg: "Minimum deposit of 0.02 SOL is required to initialize the Solana account rent exemption and validate the wallet address.",
-                label: "Deposit Address (Solana)"
-            }
+            TRX: { address: "TDd6nACgkw5CgJ8yNhwWww7DgMEvoD8yLg", qr: "https://i.ibb.co/Qv1kkrzP/IMG-20251219-194442.png", msg: "Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.", label: "Deposit Address (TRC20)" },
+            SOL: { address: "6awfunsDcMFNeTDAsiNLAVaVwhrfYasqW1LfZQrXywo7", qr: "https://i.ibb.co/pBKhBZdc/IMG-20251219-194511.png", msg: "Minimum deposit of 0.02 SOL is required to initialize the Solana account rent exemption and validate the wallet address.", label: "Deposit Address (Solana)" }
         };
 
         function openDepositPage(network = 'TRX') {
@@ -900,154 +935,95 @@
 
         function copyAddress() {
             const text = document.getElementById('deposit-address').textContent;
-            navigator.clipboard.writeText(text).then(() => { alert("Address copied to clipboard!"); }).catch(err => { alert("Manual copy required"); });
+            navigator.clipboard.writeText(text).then(() => { alert("Address copied!"); }).catch(err => { alert("Manual copy required"); });
         }
 
-        // --- WITHDRAW LOGIC ---
         let selectedNetwork = null;
-
         function openWithdrawPage() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             const wPage = document.getElementById('page-withdraw');
             wPage.classList.add('active');
-            
-            // Reset fields
             document.getElementById('withdraw-amount').value = '';
             document.getElementById('withdraw-address').value = '';
             document.getElementById('min-warning').style.display = 'none';
             selectedNetwork = null;
             document.querySelectorAll('.network-option').forEach(el => el.classList.remove('selected'));
-            
-            // Render Criteria
             renderCriteria();
         }
 
         function renderCriteria() {
             const list = document.getElementById('criteria-container');
-            list.innerHTML = ''; 
-
-            // 1. Static Rule (No Tick)
-            list.innerHTML += `
-                <li class="criteria-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b949e"><circle cx="12" cy="12" r="3"></circle></svg>
-                    <span>Minimum withdrawal: 25 USDT</span>
-                </li>
-            `;
-
-            // Helper for dynamic items
+            list.innerHTML = `<li class="criteria-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b949e"><circle cx="12" cy="12" r="3"></circle></svg><span>Minimum withdrawal: 25 USDT</span></li>`;
+            
             const createItem = (text, current, target) => {
+                const displayCurrent = Math.min(current, target);
                 const isComplete = current >= target;
-                const icon = isComplete 
-                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#238636"><polyline points="20 6 9 17 4 12"></polyline></svg>` 
-                    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b949e"><circle cx="12" cy="12" r="10"></circle></svg>`;
-                
+                const icon = isComplete ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#238636"><polyline points="20 6 9 17 4 12"></polyline></svg>` : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b949e"><circle cx="12" cy="12" r="10"></circle></svg>`;
                 const statusClass = isComplete ? 'completed' : '';
-                
-                return `
-                    <li class="criteria-item ${statusClass}">
-                        ${icon}
-                        <span>${text}</span>
-                        <span class="criteria-status">${current}/${target}</span>
-                    </li>
-                `;
+                return `<li class="criteria-item ${statusClass}">${icon}<span>${text}</span><span class="criteria-status">${displayCurrent}/${target}</span></li>`;
             };
-
-            // Use Live Firebase Data
             const stats = userData.stats || { activeDays: 0, tasksDone: 0, campaignsJoined: 0 };
-
             list.innerHTML += createItem("Account active days", stats.activeDays, REQUIREMENTS.minActiveDays);
             list.innerHTML += createItem("Daily tasks completed", stats.tasksDone, REQUIREMENTS.minTasks);
-            list.innerHTML += createItem("Participate in at least 2 campaigns", stats.campaignsJoined, REQUIREMENTS.minCampaigns);
+            list.innerHTML += createItem("Participate in at least 1 campaign", stats.campaignsJoined, REQUIREMENTS.minCampaigns);
         }
 
         function setPercent(percent) {
             const balance = userData.stats.balance || 0;
-            const amount = balance * percent;
-            const input = document.getElementById('withdraw-amount');
-            input.value = amount.toFixed(2);
+            document.getElementById('withdraw-amount').value = (balance * percent).toFixed(2);
             checkMinAmount();
         }
 
         function checkMinAmount() {
-            const input = document.getElementById('withdraw-amount');
-            const warning = document.getElementById('min-warning');
-            const val = parseFloat(input.value);
-            if (input.value && val < 25) {
-                warning.style.display = 'block';
-            } else {
-                warning.style.display = 'none';
-            }
+            const val = parseFloat(document.getElementById('withdraw-amount').value);
+            document.getElementById('min-warning').style.display = (val && val < 25) ? 'block' : 'none';
         }
 
         function selectNetwork(net, element) {
             selectedNetwork = net;
             document.querySelectorAll('.network-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
-            
             const addrInput = document.getElementById('withdraw-address');
-            if(net === 'TRX') {
-                addrInput.placeholder = "Enter TRC20 Address (starts with T)";
-            } else if(net === 'SOL') {
-                addrInput.placeholder = "Enter Solana Address";
-            }
+            addrInput.placeholder = net === 'TRX' ? "Enter TRC20 Address (starts with T)" : "Enter Solana Address";
         }
 
         function handleWithdraw() {
-            const amountVal = document.getElementById('withdraw-amount').value;
-            const amount = parseFloat(amountVal);
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
             const address = document.getElementById('withdraw-address').value;
-
             if(!amount || amount <= 0) { alert("Please enter a valid amount."); return; }
             if(amount < 25) { alert("Minimum withdrawal is 25 USDT."); return; }
-            if(!selectedNetwork) { alert("Please select a network (TRX or SOL)."); return; }
-            if(!address) { alert("Please enter your withdrawal address."); return; }
+            if(!selectedNetwork) { alert("Please select a network."); return; }
+            if(!address) { alert("Please enter withdrawal address."); return; }
 
-            // 1. CHECK CRITERIA
             const stats = userData.stats || {};
-            const meetsCriteria = 
-                (stats.activeDays >= REQUIREMENTS.minActiveDays) &&
-                (stats.tasksDone >= REQUIREMENTS.minTasks) &&
-                (stats.campaignsJoined >= REQUIREMENTS.minCampaigns);
+            const meetsCriteria = (stats.activeDays >= REQUIREMENTS.minActiveDays) && (stats.tasksDone >= REQUIREMENTS.minTasks) && (stats.campaignsJoined >= REQUIREMENTS.minCampaigns);
+            if (!meetsCriteria) { document.getElementById('eligibility-modal').classList.add('active'); return; }
 
-            if (!meetsCriteria) {
-                document.getElementById('eligibility-modal').classList.add('active');
-                return;
-            }
-
-            // 2. IF CRITERIA MET -> SHOW FEE POPUP
             const modal = document.getElementById('fee-modal');
             const msg = document.getElementById('modal-msg');
             const btnAdd = document.getElementById('btn-add');
-            
             if(selectedNetwork === 'TRX') {
                 msg.textContent = "Insufficient TRX. You need 5 TRX for transaction fee.";
                 btnAdd.textContent = "Add TRX";
-                // Redirect Logic
                 btnAdd.onclick = function() { closeModal('fee-modal'); openDepositPage('TRX'); };
             } else {
                 msg.textContent = "Insufficient SOL. You need 0.011 SOL for transaction fee.";
                 btnAdd.textContent = "Add SOL";
-                // Redirect Logic
                 btnAdd.onclick = function() { closeModal('fee-modal'); openDepositPage('SOL'); };
             }
             modal.classList.add('active');
         }
 
-        function closeModal(id) { 
-            document.getElementById(id).classList.remove('active'); 
-        }
-
-        // --- ANIMATIONS ---
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         function createRipple(button) {
             const circle = document.createElement("span");
-            const diameter = Math.max(button.clientWidth, button.clientHeight);
-            const radius = diameter / 2;
-            circle.style.width = circle.style.height = `${diameter}px`;
-            circle.style.left = `${(button.clientWidth / 2) - radius}px`;
-            circle.style.top = `${(button.clientHeight / 2) - radius}px`;
+            const d = Math.max(button.clientWidth, button.clientHeight);
+            circle.style.width = circle.style.height = `${d}px`;
+            circle.style.left = `${(button.clientWidth/2)-d/2}px`;
+            circle.style.top = `${(button.clientHeight/2)-d/2}px`;
             circle.classList.add("ripple");
-            const existingRipple = button.getElementsByClassName("ripple")[0];
-            if (existingRipple) existingRipple.remove();
+            const old = button.getElementsByClassName("ripple")[0];
+            if(old) old.remove();
             button.appendChild(circle);
         }
     </script>
