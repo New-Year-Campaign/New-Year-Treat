@@ -40,87 +40,39 @@
             overflow: hidden;
         }
 
-        /* --- BACKGROUND ATMOSPHERE --- */
-        .winter-glow {
-            position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
-            width: 120%; height: 70%;
-            background: radial-gradient(circle, rgba(56, 139, 253, 0.1) 0%, transparent 70%);
-            z-index: -1; pointer-events: none;
-        }
-        .snow-bg {
-            position: absolute; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px; opacity: 0.3; z-index: -1;
-        }
+        /* --- BACKGROUND --- */
+        .winter-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 120%; height: 70%; background: radial-gradient(circle, rgba(56, 139, 253, 0.1) 0%, transparent 70%); z-index: -1; pointer-events: none; }
+        .snow-bg { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.3; z-index: -1; }
 
         /* --- LOADING SPINNER --- */
-        #loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-body); z-index: 3000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .spinner {
-            width: 40px; height: 40px; border: 4px solid var(--button-grey);
-            border-top: 4px solid var(--github-green); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
-        }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--button-grey); border-top: 4px solid var(--github-green); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- AUTH SCREEN STYLES --- */
-        #auth-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-body); z-index: 2000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; overflow-y: auto;
-        }
-        
+        /* --- AUTH SCREEN --- */
+        #auth-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .auth-header { text-align: center; margin-bottom: 30px; }
         .auth-logo { width: 64px; height: 64px; fill: #fff; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
         .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; color: #fff; }
         .auth-subtitle { color: var(--newyear-gold); font-size: 0.9rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
-
-        .auth-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            width: 100%; max-width: 400px; padding: 30px; border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative;
-            animation: fadeUp 0.5s ease-out;
-        }
-
+        .auth-card { background: var(--bg-card); border: 1px solid var(--border-color); width: 100%; max-width: 400px; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; animation: fadeUp 0.5s ease-out; }
         .auth-form { display: flex; flex-direction: column; gap: 15px; }
         .auth-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; display: block; }
-        .auth-input {
-            width: 100%; background: #010409; border: 1px solid var(--border-color);
-            padding: 12px; border-radius: 6px; color: #fff; font-size: 1rem;
-            transition: border-color 0.2s;
-        }
+        .auth-input { width: 100%; background: #010409; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; color: #fff; font-size: 1rem; transition: border-color 0.2s; }
         .auth-input:focus { border-color: var(--github-green); }
         .auth-select { appearance: none; -webkit-appearance: none; cursor: pointer; }
-
-        .auth-btn {
-            background: var(--github-green); color: #fff; border: none; padding: 14px;
-            border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer;
-            margin-top: 10px; transition: transform 0.2s;
-        }
+        .auth-btn { background: var(--github-green); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
         .auth-btn:active { transform: scale(0.98); }
         .auth-btn:disabled { background: var(--button-grey); cursor: not-allowed; opacity: 0.7; }
-
         .auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
         .auth-link { color: #58a6ff; cursor: pointer; text-decoration: none; font-weight: 600; margin-left: 5px; }
-        .auth-link:hover { text-decoration: underline; }
-        
         .auth-error { color: var(--holiday-red); font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
-
         .hidden { display: none !important; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- APP CONTENT --- */
-        #app-content { display: none; width: 100%; height: 100%; flex-direction: column; } 
-
-        header {
-            background: rgba(1, 4, 9, 0.85); backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: fixed; top: 0; width: 100%; z-index: 900;
-        }
+        /* --- APP STRUCTURE --- */
+        #app-content { display: none; width: 100%; height: 100%; flex-direction: column; }
+        header { background: rgba(1, 4, 9, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); position: fixed; top: 0; width: 100%; z-index: 900; }
         .header-stripe { width: 100%; height: 3px; background: var(--festive-gradient); box-shadow: 0 0 15px rgba(218, 54, 51, 0.4); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; height: 64px; }
         .brand-section { display: flex; align-items: center; gap: 12px; }
@@ -134,21 +86,19 @@
         .badge-value { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
         .countdown-dot { width: 6px; height: 6px; background-color: var(--holiday-red); border-radius: 50%; box-shadow: 0 0 5px var(--holiday-red); animation: pulse-red 2s infinite; }
 
-        /* --- MAIN CONTENT --- */
         main { flex: 1; margin-top: 67px; padding-bottom: 120px; overflow-y: auto; scroll-behavior: smooth; }
         .page { display: none; min-height: 100%; padding: 20px; flex-direction: column; animation: fadeSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .page.active { display: flex; }
         .page h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); font-weight: 700; text-align: center; }
         .page p { color: var(--text-muted); text-align: center; margin-bottom: 20px;}
 
-        /* --- CAMPAIGN PAGE STYLES (VERTICAL) --- */
+        /* --- CAMPAIGN PAGE (VERTICAL) --- */
         .campaign-vertical-list { display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 600px; margin: 0 auto; }
         .camp-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .camp-card:active { transform: scale(0.98); }
         .camp-img-box { width: 100%; aspect-ratio: 1 / 1; height: auto; background: #000; position: relative; }
         .camp-img { width: 100%; height: 100%; object-fit: cover; }
         .camp-title { padding: 15px; font-size: 1.1rem; font-weight: 700; color: #fff; text-align: center; background: rgba(255,255,255,0.05); }
-        
         .camp-expanded { background: #1c2128; border: 1px solid var(--newyear-gold); border-radius: 12px; padding: 20px; margin-top: -15px; margin-bottom: 25px; display: none; animation: fadeIn 0.3s; position: relative; z-index: 10; }
         .camp-expanded.open { display: block; }
         .copy-box { background: rgba(0,0,0,0.3); border: 1px dashed var(--text-muted); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
@@ -165,6 +115,18 @@
         .form-check input { width: 18px; height: 18px; accent-color: var(--github-green); }
         .btn-participate { width: 100%; background: var(--github-green); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
         .btn-participate:disabled { background: var(--button-grey); opacity: 0.5; cursor: not-allowed; }
+
+        /* --- GAME CARD --- */
+        .game-grid-main { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
+        .game-card-main { background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .card-image-wrapper { width: 100%; padding-top: 56.25%; position: relative; background: #000; overflow: hidden; border-bottom: 1px solid var(--border-color); }
+        .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .card-title { font-size: 1.2rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .card-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+        .btn-play { margin-top: 10px; background: var(--github-green); color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; width: 100%; transition: background 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
+        .btn-play:hover { background: #2ea043; }
+        .btn-play:active { transform: scale(0.98); }
 
         /* --- REFERRAL & TASKS --- */
         .referral-card { background: linear-gradient(135deg, #1c2128 0%, #21262d 100%); border: 1px solid var(--newyear-gold); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: left; position: relative; box-shadow: 0 4px 20px rgba(242, 204, 96, 0.15); }
@@ -190,18 +152,6 @@
         .btn-task.try-again { background: var(--holiday-red); border-color: var(--holiday-red); }
         .ad-error-msg { color: var(--holiday-red); font-size: 0.8rem; margin-top: 5px; font-weight: 500; display: none; }
 
-        /* --- GAME CARD --- */
-        .game-grid-main { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
-        .game-card-main { background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .card-image-wrapper { width: 100%; padding-top: 56.25%; position: relative; background: #000; overflow: hidden; border-bottom: 1px solid var(--border-color); }
-        .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .card-title { font-size: 1.2rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; }
-        .card-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
-        .btn-play { margin-top: 10px; background: var(--github-green); color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; width: 100%; transition: background 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
-        .btn-play:hover { background: #2ea043; }
-        .btn-play:active { transform: scale(0.98); }
-
         /* --- WALLET & DEPOSIT/WITHDRAW UI --- */
         .wallet-card { background-color: var(--bg-card); background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px); border-radius: 16px; padding: 30px 20px; text-align: left; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid var(--border-color); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
         .wallet-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
@@ -210,7 +160,6 @@
         .wallet-actions { display: flex; justify-content: space-around; margin-bottom: 40px; padding: 0 10px; }
         .action-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         .action-btn { width: 56px; height: 56px; border-radius: 50%; background-color: var(--button-grey); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .action-btn:active { transform: scale(0.95); background-color: #30363d; }
         .action-item span { font-size: 0.85rem; color: var(--text-main); font-weight: 500; }
         .deposit-header { display: flex; background: var(--bg-card); border-radius: 8px; padding: 4px; margin-bottom: 24px; border: 1px solid var(--border-color); }
         .deposit-tab { flex: 1; text-align: center; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
@@ -222,7 +171,6 @@
         .address-box { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; }
         .address-text { flex: 1; font-family: monospace; color: #fff; word-break: break-all; font-size: 0.9rem; }
         .btn-copy { background: var(--button-grey); border: 1px solid var(--border-color); color: var(--text-main); width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .btn-copy:active { background: #30363d; }
         .deposit-warning { background: rgba(240, 185, 11, 0.1); border-left: 3px solid var(--newyear-gold); padding: 15px; border-radius: 6px; margin-top: 10px; }
         .warning-title { font-size: 0.9rem; color: #d2a839; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
         .warning-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
@@ -435,7 +383,7 @@
                 <div class="task-item">
                     <div class="task-info">
                         <span class="task-name">Watch Ad</span>
-                        <span class="task-reward">+0.50 USDT (Limit: 5/day)</span>
+                        <span class="task-reward">+0.50 USDT (Limit: 3/day)</span>
                         <div id="ad-error-msg" class="ad-error-msg">Stay on the page for 10 seconds</div>
                     </div>
                     <button class="btn-task" id="btn-watch-ad" onclick="watchAdTask()">Watch</button>
@@ -555,11 +503,11 @@
 
             <!-- BUY (MAINTENANCE) PAGE -->
             <section id="page-buy" class="page">
-                <div class="maintenance-wrapper">
-                    <div class="maintenance-card">
-                        <div class="maintenance-icon">🛠️</div>
-                        <h2 class="maintenance-title">System Maintenance</h2>
-                        <p class="maintenance-text">Due to server maintenance, crypto purchases are unavailable for some time.</p>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 20px;">
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px 20px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeUp 0.4s;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">🛠️</div>
+                        <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 15px;">System Maintenance</h2>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">Due to server maintenance, crypto purchases are unavailable for some time.</p>
                         <button class="percent-btn" style="width:100%; border:1px solid var(--border-color);" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Go Back</button>
                     </div>
                 </div>
@@ -629,6 +577,13 @@
         let userData = { profile: {}, stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null } };
         let adAttemptCounter = 1;
         const REQUIREMENTS = { minActiveDays: 3, minTasks: 5, minCampaigns: 1 };
+
+        // AD ROTATION LINKS
+        const AD_LINKS = [
+            "https://www.effectivegatecpm.com/pe893qp57g?key=775e7f2eed1ccdb06ac44b60276c97c3",
+            "https://www.effectivegatecpm.com/xgcp8egw6?key=434093c91edc962671f4dc07e1e7f4a4",
+            "https://www.effectivegatecpm.com/tmtkd45e?key=9f36ad3f4af25dd1c2fa0b48ae9fca4d"
+        ];
 
         const CAMPAIGNS = [
             {
@@ -701,11 +656,19 @@
             if(!currentUser) return;
             const today = new Date().toDateString();
             if (userData.stats.lastAdDate !== today) { userData.stats.adWatchesToday = 0; }
-            if ((userData.stats.adWatchesToday || 0) >= 5) { alert("Daily limit reached (5/5). Come back tomorrow!"); return; }
+            const watchesToday = userData.stats.adWatchesToday || 0;
+            
+            if (watchesToday >= 3) { 
+                alert("Daily limit reached (3/3). Come back tomorrow!"); 
+                return; 
+            }
 
             const btn = document.getElementById('btn-watch-ad');
             const errorMsg = document.getElementById('ad-error-msg');
-            const adLink = "https://www.effectivegatecpm.com/pe893qp57g?key=775e7f2eed1ccdb06ac44b60276c97c3";
+            
+            // ROTATE LINKS BASED ON CURRENT COUNT
+            const linkIndex = watchesToday % AD_LINKS.length;
+            const adLink = AD_LINKS[linkIndex];
 
             window.open(adLink, "_blank");
 
@@ -718,7 +681,7 @@
                     btn.disabled = false; btn.textContent = "Watch"; btn.classList.remove('try-again'); errorMsg.style.display = "none";
                     const newBalance = (userData.stats.balance || 0) + 0.50;
                     const newTasks = (userData.stats.tasksDone || 0) + 1;
-                    const newWatches = (userData.stats.adWatchesToday || 0) + 1;
+                    const newWatches = watchesToday + 1;
                     db.ref('users/' + currentUser.uid + '/stats').update({ balance: newBalance, tasksDone: newTasks, adWatchesToday: newWatches, lastAdDate: today });
                     alert("Ad Task Completed! +0.50 USDT");
                     adAttemptCounter++;
@@ -912,7 +875,6 @@
         }
 
         function updateUI() {
-            if(!userData || !userData.stats) return;
             const balanceStr = '$' + (userData.stats.balance || 0).toFixed(2);
             document.getElementById('main-balance').textContent = balanceStr;
             document.getElementById('withdraw-balance').textContent = balanceStr;
