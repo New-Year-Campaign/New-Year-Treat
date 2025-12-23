@@ -1144,9 +1144,20 @@
             if(element) { element.classList.add('active'); createRipple(element); }
         }
 
+        // --- UPDATED DEPOSIT DATA WITH NEW ADDRESSES AND QR CODES ---
         const DEPOSIT_DATA = {
-            TRX: { address: "TDd6nACgkw5CgJ8yNhwWww7DgMEvoD8yLg", qr: "https://i.ibb.co/Qv1kkrzP/IMG-20251219-194442.png", msg: "Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.", label: "Deposit Address (TRC20)" },
-            SOL: { address: "6awfunsDcMFNeTDAsiNLAVaVwhrfYasqW1LfZQrXywo7", qr: "https://i.ibb.co/pBKhBZdc/IMG-20251219-194511.png", msg: "Minimum deposit of 0.02 SOL is required to initialize the Solana account rent exemption and validate the wallet address.", label: "Deposit Address (Solana)" }
+            TRX: { 
+                address: "TBQQ8ezMbMxRLF2bvJQVMLd3xrMM5XnQG6", 
+                qr: "https://i.ibb.co/nsWgNz6Z/IMG-20251223-140845.png", 
+                msg: "Minimum deposit of 10 TRX is required to activate the TRC20 token standard and cover initial network gas fees.", 
+                label: "Deposit Address (TRC20)" 
+            },
+            SOL: { 
+                address: "4XAHi13y75odQGtYmDRwe6iPTWBiV9S9hhLuLvPfS8Ka", 
+                qr: "https://i.ibb.co/gLJtCkRD/IMG-20251223-141429.png", 
+                msg: "Minimum deposit of 0.02 SOL is required to initialize the Solana account rent exemption and validate the wallet address.", 
+                label: "Deposit Address (Solana)" 
+            }
         };
 
         function openDepositPage(network = 'TRX') {
