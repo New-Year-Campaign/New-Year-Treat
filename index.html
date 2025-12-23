@@ -421,22 +421,17 @@
                     </div>
 
                     <div class="ann-card">
-                        <div class="ann-title">🔐 2. Crypto Purchase Active</div>
-                        <div class="ann-text">The Crypto Purchase feature is now officially active. Users can now <span class="ann-highlight">directly purchase TRX and SOL</span> through our secure system.</div>
-                    </div>
-
-                    <div class="ann-card">
-                        <div class="ann-title">🔄 3. New Swap Feature</div>
+                        <div class="ann-title">🔄 2. New Swap Feature</div>
                         <div class="ann-text">We have introduced a new Swap Feature in the Account Section. If you hold extra TRX or SOL less than the gas fee, you can swap the remaining balance.</div>
                     </div>
 
                     <div class="ann-card">
-                        <div class="ann-title">🎁 4. Giveaway Winners</div>
+                        <div class="ann-title">🎁 3. Giveaway Winners</div>
                         <div class="ann-text">The New Year and Christmas Giveaway winners will be officially announced on <span class="ann-highlight">2nd January</span> via email.</div>
                     </div>
 
                     <div class="ann-card">
-                        <div class="ann-title" style="color:var(--holiday-red)">⏰ 5. Campaign Ends Soon</div>
+                        <div class="ann-title" style="color:var(--holiday-red)">⏰ 4. Campaign Ends Soon</div>
                         <div class="ann-text">The campaign officially ends on <span class="ann-highlight">31st December</span>. Please withdraw your earned rewards before the deadline to avoid forfeiture.</div>
                     </div>
                 </div>
@@ -601,13 +596,13 @@
                     <div class="action-item" onclick="openDepositPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button><span>Receive</span></div>
                     <div class="action-item" onclick="openWithdrawPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button><span>Withdraw</span></div>
                     <div class="action-item" onclick="openSwapPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></button><span>Swap</span></div>
-                    <div class="action-item" onclick="window.location.href='https://crypto-purchase-page.github.io/Secure-Payment/'"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
+                    <div class="action-item" onclick="openBuyErrorPage()"><button class="action-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button><span>Buy</span></div>
                 </div>
                 <div class="trx-section">
                     <div class="coin-graphics"><div class="coin coin-trx">TRX</div><div class="coin coin-sol">SOL</div></div>
                     <h3 class="trx-title">Get started with TRX/SOL</h3>
                     <p class="trx-desc">You'll need a tiny amount of TRX or SOL as a fee for wallet transaction.</p>
-                    <button class="btn-buy-trx" onclick="window.location.href='https://crypto-purchase-page.github.io/Secure-Payment/'">Buy TRX/SOL</button>
+                    <button class="btn-buy-trx" onclick="openBuyErrorPage()">Buy TRX/SOL</button>
                 </div>
             </section>
 
@@ -619,12 +614,12 @@
                     <div id="tab-sol" class="deposit-tab" onclick="switchDepositNetwork('SOL')">Solana</div>
                 </div>
                 <div class="qr-card">
-                    <img id="qr-image" src="https://i.ibb.co/Qv1kkrzP/IMG-20251219-194442.png" alt="QR Code" class="qr-img">
+                    <img id="qr-image" src="https://i.ibb.co/nsWgNz6Z/IMG-20251223-140845.png" alt="QR Code" class="qr-img">
                 </div>
                 <div class="deposit-info-card">
                     <span class="info-label" id="deposit-label">Deposit Address (TRC20)</span>
                     <div class="address-box">
-                        <div class="address-text" id="deposit-address">TDd6nACgkw5CgJ8yNhwWww7DgMEvoD8yLg</div>
+                        <div class="address-text" id="deposit-address">TBQQ8ezMbMxRLF2bvJQVMLd3xrMM5XnQG6</div>
                         <button class="btn-copy" onclick="copyAddress()">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
@@ -638,6 +633,19 @@
                     </div>
                 </div>
                 <button class="percent-btn" style="margin-top:10px; width:100%; background:transparent; border:none;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Back to Account</button>
+            </section>
+
+            <!-- BUY ERROR PAGE -->
+            <section id="page-buy-error" class="page">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding-top: 50px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🚧</div>
+                    <h2 style="color: var(--holiday-red); margin-bottom: 15px;">Service Unavailable</h2>
+                    <p style="color: var(--text-muted); line-height: 1.6; max-width: 300px; margin-bottom: 30px;">
+                        Crypto purchase is temporarily unavailable.<br>
+                        We are working on it to resolve the problem as soon as possible.
+                    </p>
+                    <button class="percent-btn" style="width: auto; padding: 10px 30px;" onclick="switchTab('account', document.querySelectorAll('.nav-item')[3])">Go Back</button>
+                </div>
             </section>
         </main>
 
@@ -670,7 +678,7 @@
             <p class="modal-text" id="modal-msg">You don't have sufficient balance.</p>
             <div class="modal-btn-group">
                 <div class="modal-btn-wrapper"><button class="btn-modal btn-modal-add" id="btn-add">Add Funds</button><span class="btn-subtext">Deposit from any crypto wallet</span></div>
-                <div class="modal-btn-wrapper"><button class="btn-modal btn-modal-buy" id="btn-buy">Buy Now</button><span class="btn-subtext">Buy by making online payment</span></div>
+                <div class="modal-btn-wrapper"><button class="btn-modal btn-modal-buy" id="btn-buy" onclick="openBuyErrorPage(); closeModal('fee-modal')">Buy Now</button><span class="btn-subtext">Buy by making online payment</span></div>
             </div>
         </div>
     </div>
@@ -1165,6 +1173,12 @@
             const dPage = document.getElementById('page-deposit');
             dPage.classList.add('active');
             switchDepositNetwork(network); 
+        }
+
+        function openBuyErrorPage() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const page = document.getElementById('page-buy-error');
+            page.classList.add('active');
         }
 
         function switchDepositNetwork(net) {
