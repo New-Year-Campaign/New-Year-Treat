@@ -248,7 +248,7 @@
         .nav-item svg { width: 24px; height: 24px; margin-bottom: 6px; fill: none; stroke: currentColor; stroke-width: 2; transition: all 0.3s; }
         .nav-item.active svg { stroke: #ffffff; transform: translateY(-3px); }
 
-        /* --- FIXED: MISSING ACCOUNT STYLES --- */
+        /* --- ACCOUNT STYLES --- */
         .trx-section {
             display: flex;
             flex-direction: column;
@@ -315,6 +315,18 @@
         .btn-buy-trx:active {
             transform: scale(0.95);
         }
+
+        /* --- FIXED: WITHDRAWAL CRITERIA --- */
+        .criteria-card { margin-top: 25px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
+        .criteria-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .criteria-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .criteria-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-muted); }
+        .criteria-item.completed { color: #fff; }
+        .criteria-item svg { flex-shrink: 0; }
+        .criteria-status { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+        .criteria-item.completed .criteria-status { color: var(--github-green); }
+        .security-note { background: rgba(218, 54, 51, 0.1); border: 1px solid rgba(218, 54, 51, 0.3); border-radius: 8px; padding: 12px; display: flex; gap: 10px; align-items: start; font-size: 0.85rem; color: #ff7b72; line-height: 1.4; }
+        .security-note svg { flex-shrink: 0; margin-top: 2px; }
     </style>
 </head>
 <body>
